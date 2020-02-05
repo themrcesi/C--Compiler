@@ -1,16 +1,16 @@
 package ast;
 
-public class Program implements ASTNode {
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
+public class Program extends ASTAbstractNode {
+
+    private List<Definition> defs;
 
     public Program(int line, int column, List<Definition> definitions)
-
-    @Override
-    public int getLine() {
-        return 0;
-    }
-
-    @Override
-    public int getColumn() {
-        return 0;
+    {
+        super(line,column);
+        this.defs = new ArrayList<Definition>(definitions);
     }
 }
