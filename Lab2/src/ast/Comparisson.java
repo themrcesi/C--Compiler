@@ -1,6 +1,6 @@
 package ast;
 
-public class Comparisson extends AbstractExpression {
+public class Comparisson extends ASTAbstractNode implements Expression {
 
     private String operand;
     private Expression exprLeft;

@@ -1,6 +1,6 @@
 package ast;
 
-public class Read extends AbstractStatement {
+public class Read extends ASTAbstractNode implements Statement {
 
     private Expression expression;
 

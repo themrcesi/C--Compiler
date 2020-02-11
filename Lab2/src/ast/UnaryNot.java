@@ -1,6 +1,6 @@
 package ast;
 
-public class UnaryNot extends AbstractExpression {
+public class UnaryNot extends ASTAbstractNode implements Expression {
 
     private Expression expr;
 

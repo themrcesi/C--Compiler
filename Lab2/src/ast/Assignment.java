@@ -1,6 +1,6 @@
 package ast;
 
-public class Assignment extends AbstractStatement{
+public class Assignment extends ASTAbstractNode implements Expression{
 
     private Expression leftEx;
     private Expression rightEx;

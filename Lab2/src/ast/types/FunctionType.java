@@ -1,11 +1,12 @@
 package ast.types;
 
+import ast.ASTAbstractNode;
 import ast.VarDefinition;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class FunctionType extends AbstractType {
+public class FunctionType extends ASTAbstractNode implements Type {
 
     private Type returnType;
     private ArrayList<VarDefinition> parameters;

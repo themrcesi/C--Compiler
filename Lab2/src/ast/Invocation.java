@@ -4,7 +4,7 @@ import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Invocation extends AbstractStatement {
+public class Invocation extends ASTAbstractNode implements Statement {
 
     private Variable name;
     private List<Expression> arguments;

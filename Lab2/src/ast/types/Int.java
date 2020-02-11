@@ -1,6 +1,8 @@
 package ast.types;
 
-public class Int extends AbstractType {
+import ast.ASTAbstractNode;
+
+public class Int extends ASTAbstractNode implements Type {
 
     public Int(int line, int column) {
         super(line, column);

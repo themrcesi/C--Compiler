@@ -1,9 +1,11 @@
 package ast.types;
 
+import ast.ASTAbstractNode;
+
 import java.util.ArrayList;
 import java.util.List;
 
-public class Record extends AbstractType {
+public class Record extends ASTAbstractNode implements Type {
 
     private List<RecordField> fields;
 

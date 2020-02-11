@@ -1,6 +1,6 @@
 package ast;
 
-public class DoubleLiteral extends AbstractExpression {
+public class DoubleLiteral extends ASTAbstractNode implements Expression {
 
     private double value;
 

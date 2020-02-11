@@ -3,7 +3,7 @@ package ast;
 import java.util.ArrayList;
 import java.util.List;
 
-public class While extends AbstractStatement {
+public class While extends ASTAbstractNode implements Statement {
 
     private Expression condition;
     private List<Statement> body;

@@ -1,6 +1,6 @@
 package ast;
 
-public class Arithmetic extends AbstractExpression {
+public class Arithmetic extends ASTAbstractNode implements Expression {
 
     private String operator;
     private Expression exprLeft;

@@ -1,6 +1,6 @@
 package ast;
 
-public class Return extends AbstractStatement {
+public class Return extends ASTAbstractNode implements Statement {
 
     private final Expression returned;
 

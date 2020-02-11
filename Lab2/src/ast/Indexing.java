@@ -1,6 +1,6 @@
 package ast;
 
-public class Indexing extends AbstractExpression {
+public class Indexing extends ASTAbstractNode implements Expression {
 
     private Expression exprRight;
     private Expression exprLeft;

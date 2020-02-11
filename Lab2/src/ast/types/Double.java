@@ -1,6 +1,8 @@
 package ast.types;
 
-public class Double extends AbstractType {
+import ast.ASTAbstractNode;
+
+public class Double extends ASTAbstractNode implements Type {
 
     public Double(int line, int column)
     {

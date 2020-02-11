@@ -1,6 +1,6 @@
 package ast;
 
-public class Variable extends AbstractExpression{
+public class Variable extends ASTAbstractNode implements Expression{
 
     private String name;
 

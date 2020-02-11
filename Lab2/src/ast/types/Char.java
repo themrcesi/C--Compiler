@@ -1,6 +1,8 @@
 package ast.types;
 
-public class Char extends AbstractType {
+import ast.ASTAbstractNode;
+
+public class Char extends ASTAbstractNode implements Type {
 
     public Char(int line, int column)
     {

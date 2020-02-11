@@ -4,7 +4,7 @@ import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 
-public class If extends AbstractStatement
+public class If extends ASTAbstractNode implements Statement
 {
     private Expression condition;
     private List<Statement> ifStatements;

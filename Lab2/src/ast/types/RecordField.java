@@ -1,27 +1,18 @@
 package ast.types;
 
+import ast.ASTAbstractNode;
 import ast.ASTNode;
 
-public class RecordField implements ASTNode {
+public class RecordField extends ASTAbstractNode {
 
+    private String name;
     private Type type;
     private int column;
     private int line;
 
-    public RecordField(int line, int column, Type type)
-    {
-        this.line = line;
-        this.column = column;
+    public RecordField(int line, int column, Type type, String name) {
+        super(line,column);
         this.type = type;
-    }
-    @Override
-    public int getLine()
-    {
-        return this.line;
-    }
-
-    @Override
-    public int getColumn() {
-        return this.column;
+        this.name = name;
     }
 }

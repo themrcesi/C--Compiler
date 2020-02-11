@@ -1,6 +1,6 @@
 package ast;
 
-public class CharLiteral extends AbstractExpression {
+public class CharLiteral extends ASTAbstractNode implements Expression {
 
     private char value;
 
