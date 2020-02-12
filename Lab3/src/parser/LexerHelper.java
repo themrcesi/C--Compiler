@@ -14,18 +14,30 @@ public class LexerHelper {
 
 	// TODO: Implement the lexemeToChar and lexemeToReal methods
 	public static char lexemeToChar(String str) {
-		try {
-			return Integer.parseInt(str);
+		str = str.replace("'", "");
+		if(str.contains("\\")) {
+			str = str.replace("\\", "");
+			try {
+				Integer a = Integer.parseInt(str);
+				return (char) a.intValue();
+			}
+			catch(Exception e) {}
+			if(str.contains("n"))
+				return '\n';
+			if(str.contains("t"))
+				return '\t';
 		}
-		catch(NumberFormatException e) {
-			System.out.println(e);
-		}
-		return -1;
+		return str.charAt(0);
 	}
 
 	public static double lexemeToReal(String str) {
 		try {
-			return Double.parseDouble(str);
+			if(str.toLowerCase().contains("e")) {
+				return Double.parseDouble(str.toLowerCase().split("e")[0]) * Math.pow(10, Double.parseDouble(str.toLowerCase().split("e")[1]));
+			}
+			else {
+				return Double.parseDouble(str.toLowerCase());
+			}
 		}
 		catch(NumberFormatException e) {
 			System.out.println(e);

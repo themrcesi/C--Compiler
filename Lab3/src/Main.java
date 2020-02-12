@@ -23,13 +23,12 @@ public class Main {
 			Object semanticValue = null;
 			switch (token.getType()) {			
 			// TODO: Implement the lexemeToChar and lexemeToReal methods in LexerHelper
-			/*case CmmLexer.CHAR_CONSTANT:
+			case CmmLexer.CHAR_CONSTANT:
 				semanticValue = LexerHelper.lexemeToChar(token.getText());
 				break;
 			case CmmLexer.REAL_CONSTANT:
 				semanticValue = LexerHelper.lexemeToReal(token.getText());
 				break;
-			*/
 			case CmmLexer.INT_CONSTANT:
 				semanticValue = LexerHelper.lexemeToInt(token.getText());
 				break;
