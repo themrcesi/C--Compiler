@@ -7,8 +7,6 @@ public class RecordField extends ASTAbstractNode {
 
     private String name;
     private Type type;
-    private int column;
-    private int line;
 
     public RecordField(int line, int column, Type type, String name) {
         super(line,column);
