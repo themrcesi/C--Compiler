@@ -1,6 +1,6 @@
 package ast;
 
-public class Access extends ASTAbstractNode implements Statement {
+public class Access extends ASTAbstractNode implements Expression {
 
     private Expression access;
     private String member;
