@@ -28,6 +28,7 @@ type:   built_in_type
     ;
 
 record_field: type ID (',' ID)* ';'
+
             ;
 
 built_in_type:  'int'
@@ -41,8 +42,10 @@ statement: 'while' '(' expression ')' block
         |   'read' argument ';'
         |   'write' argument ';'
         |   'return' (expression|'void') ';'
-        |   ID '(' argument ')' ';'
+        |   function_invocation ';'
         ;
+
+function_invocation: ID '(' argument ')';
 
 argument:  expression
         |   expression (',' expression)*
@@ -53,14 +56,16 @@ block:  statement
     |   '{' statement* '}'
     ;
 
-expression: '(' built_in_type ')' expression
+expression: function_invocation
+        |   '(' built_in_type ')' expression
         |   expression '[' expression ']'
         |   expression '.' ID
         |   '-' expression
         |   expression ('*'|'/'|'%') expression
         |   expression ('+'|'-') expression
         |   expression ('>'|'>='|'<'|'<='|'!='|'==') expression
-        |   expression ('&&'|'||'|'!') expression
+        |   expression ('&&'|'||') expression
+        |   '!' expression
         |   CHAR_CONSTANT
         |   REAL_CONSTANT
         |   INT_CONSTANT

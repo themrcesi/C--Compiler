@@ -42,10 +42,10 @@ statement: 'while' '(' expression ')' block
         |   'read' argument ';'
         |   'write' argument ';'
         |   'return' (expression|'void') ';'
-        |   function_invocation
+        |   function_invocation ';'
         ;
 
-function_invocation: ID '(' argument ')' ';';
+function_invocation: ID '(' argument ')';
 
 argument:  expression
         |   expression (',' expression)*
