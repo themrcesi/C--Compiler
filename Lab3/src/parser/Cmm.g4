@@ -3,29 +3,37 @@ grammar Cmm;
 @header {
     import ast.*;
     import ast.types.*;
-    import java.util.*;
+    import java.util*;
 }
 
-program: (variable_definition|function_definition)* main
+program returns [List<Definition> ast = new ArrayList<Definition>()]:
+        (variable_definition|function_definition)* main
        ;
 
 main: 'void' 'main' '(' ')' '{' function_body '}'
     ;
 
-definition: variable_definition
-        |   function_definition
+definition returns [Definition ast]:
+        v = variable_definition { $ast = $v.ast; }
+        |   f = function_definition { $ast = $f.ast; }
         ;
 
-function_definition: (built_in_type|'void') ID '(' parameter ')' '{' function_body '}'
+function_definition returns [FunctionDefinition ast]:
+         t = type n = ID '(' p = parameter ')' '{' b = function_body '}'
         ;
 
-function_body: variable_definition* statement*;
+variable_definition returns [List<VarDefinition> ast = new ArrayList<VarDefinition>()]:
+        t = type i1 = ID { $ast.add(new VarDefinition($t.ast.getLine(), $t.ast.getCharPositionInLine()+1, $t.ast, $i1.text)); }
+            (',' i2 = ID { $ast.add(new VarDefinition($t.ast.getLine(), $t.ast.getCharPositionInLine()+1, $t.ast, $i2.text)); })* ';'
+        ;
 
-parameter: built_in_type ID (',' built_in_type ID)*
+function_body returns [List<Statement> ast = new ArrayList<Statement>()]:
+        (v = variable_definition { $ast.add($v.ast); })* (s = statement { $ast.add($s.ast); })*;
+
+parameter returns [List<VarDefinition> ast = new ArrayList<VarDefinition>()]:
+        b1 = built_in_type i1 = ID { $ast.add(new VarDefinition($b1.ast.getLine(), $b1.ast.getCharPositionInLine(), $b1.ast, $i1.text)); }
+            (',' b2 = built_in_type i2 = ID { $ast.add(new VarDefinition($b2.ast.getLine(), $b2.ast.getCharPositionInLine(), $b2.ast, $i2.text)); })*
         |
-        ;
-
-variable_definition: type ID (',' ID)* ';'
         ;
 
 type returns [Type ast]

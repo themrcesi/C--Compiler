@@ -22,10 +22,11 @@ public class Main {
 		CommonTokenStream tokens = new CommonTokenStream(lexer); 
 		CmmParser parser = new CmmParser(tokens);
 
-		Program ast = parser.program().ast;
+		parser.program();
+		//Program ast = parser.program().ast;
 
-		IntrospectorModel model = new IntrospectorModel("Root", ast);
-		new IntrospectorTree("Tree", model);
+//		IntrospectorModel model = new IntrospectorModel("Root", ast);
+//		new IntrospectorTree("Tree", model);
 	}
 	
 
