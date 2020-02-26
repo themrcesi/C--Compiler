@@ -41,18 +41,29 @@ built_in_type:  'int'
             |   'char'
             ;
 
-statement: 'while' '(' expression ')' block
-        |   'if' '(' expression ')' block ('else' block)?
-        |   expression '=' expression ';'
-        |   'read' argument ';'
-        |   'write' argument ';'
-        |   'return' (expression|'void') ';'
-        |   function_invocation ';'
+statement returns [List<Statement> ast = new ArrayList<Statement>()]
+        locals[Statement stmt]:
+            'while' '(' e1 = expression ')' b = block    { $ast.add(new While($e1.ast.getLine(), $e1.ast.getCharPositionInLine()+1, $e1.ast, $b.ast)); }
+        |   'if' '(' e1 = expression ')' b = block { $stmt = new If($e1.ast.getLine(), $e1.ast.getCharPositionInLine()+1, $e1.ast, $b.ast); }
+                ('else' b2 = block { ((If)$stmt).setElse($b2.ast); })?    { $ast.add($stmt); }
+        |   e1 = expression '=' e2 = expression ';'   { $ast.add(new Assignment($e1.ast.getLine(), $e1.ast.getCharPositionInLine(), $e1.ast, $e2.ast)); }
+        |   t = 'read' exs = expressions ';' { for(Expression e: $exs) $ast.add(new Read($t.getLine(), $t.getCharPositionInLine()+1, e)); }
+        |   t = 'write' exs = expressions ';' { for(Expression e: $exs) $ast.add(new Read($t.getLine(), $t.getCharPositionInLine()+1, e)); }
+        |   t = 'return' e = expression ';' { $ast.add(new Return($t.getLine(), $t.getCharPositionInLine(), $e.ast)); }
+        |   f = function_invocation ';' { $ast.add($f.ast); }
         ;
 
-function_invocation: ID '(' argument ')';
+expressions returns [List<Expression> ast = new ArrayList<Expression>()]:
+            es = expression  { $ast.add($es.ast); }
+        |   em1 = expression { $ast.add($em1.ast); }
+                            (',' em2 = expression { $ast.add($em2.ast); })*
+        ;
 
-argument returns [List<Expression> ast = new ArrayList<Expression>()]:
+function_invocation returns [Invocation ast]:
+        v = ID '(' as = arguments ')' { $ast = new Invocation($v.getLine(), $v.getCharPositionInLine()+1, $as.ast); }
+        ;
+
+arguments returns [List<Expression> ast = new ArrayList<Expression>()]:
             es = expression  { $ast.add($es.ast); }
         |   em1 = expression { $ast.add($em1.ast); }
                             (',' em2 = expression { $ast.add($em2.ast); })*
