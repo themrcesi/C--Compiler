@@ -28,17 +28,22 @@ parameter: built_in_type ID (',' built_in_type ID)*
 variable_definition: type ID (',' ID)* ';'
         ;
 
-type:   built_in_type
-    |   type '[' INT_CONSTANT ']'
-    |   'struct' '{' record_field* '}'
+type returns [Type ast]
+    locals[List<RecordField> rfs = new ArrayList<RecordField>()]:
+        bt = built_in_type  { $ast = $bt.ast; }
+    |   t = type '[' s = INT_CONSTANT ']'   { $ast = new ArrayType($t.ast.getLine(), $t.ast.getCharPositionInLine()+1, LexerHelper.lexemeToInt($s.text)); }
+    |   n = 'struct' '{' (rf = record_field { for(RecordField r: $rf) $rfs.add(r); })* '}' { $ast = new RecordType($n.getLine(), $n.getCharPositionInLine()+1, $rfs); }
+    |   v = 'void' { $ast = new VoidType($v.getLine(), $v.getCharPositionInLine()+1); }
     ;
 
-record_field: type ID (',' ID)* ';'
+record_field returns [List<RecordField> ast = new ArrayList<RecordField>()]:
+            t = type i1 = ID { $ast.add(new RecordField($t.ast.getLine(), $t.getCharPositionInLine()+1, $t.ast, $i1.text)); }
+                (',' i2 = ID { $ast.add(new RecordField($t.ast.getLine(), $t.getCharPositionInLine()+1, $t.ast, $i2.text)); })* ';'
             ;
 
-built_in_type:  'int'
-            |   'double'
-            |   'char'
+built_in_type returns [Type ast]:  t = 'int'    { $ast = new IntType($t.getLine(), $t.getCharPositionInLine()+1); }
+            |   t = 'double'    { $ast = new DoubleType($t.getLine(), $t.getCharPositionInLine()+1); }
+            |   t = 'char'  { $ast = new CharType($t.getLine(), $t.getCharPositionInLine()+1); }
             ;
 
 statement returns [List<Statement> ast = new ArrayList<Statement>()]
@@ -60,7 +65,7 @@ expressions returns [List<Expression> ast = new ArrayList<Expression>()]:
         ;
 
 function_invocation returns [Invocation ast]:
-        v = ID '(' as = arguments ')' { $ast = new Invocation($v.getLine(), $v.getCharPositionInLine()+1, $as.ast); }
+        v = ID '(' as = arguments ')' { $ast = new Invocation($v.getLine(), $v.getCharPositionInLine()+1, new Variable($v.text), $as.ast); }
         ;
 
 arguments returns [List<Expression> ast = new ArrayList<Expression>()]:
