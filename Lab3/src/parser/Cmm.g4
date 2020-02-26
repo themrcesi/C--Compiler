@@ -1,4 +1,10 @@
-grammar Cmm;	
+grammar Cmm;
+
+@header {
+    import ast.*;
+    import ast.types.*;
+    import java.util.*;
+}
 
 program: (variable_definition|function_definition)* main
        ;
@@ -28,7 +34,6 @@ type:   built_in_type
     ;
 
 record_field: type ID (',' ID)* ';'
-
             ;
 
 built_in_type:  'int'
@@ -56,20 +61,21 @@ block:  statement
     |   '{' statement* '}'
     ;
 
-expression: function_invocation
-        |   '(' built_in_type ')' expression
-        |   expression '[' expression ']'
-        |   expression '.' ID
-        |   '-' expression
-        |   expression ('*'|'/'|'%') expression
-        |   expression ('+'|'-') expression
-        |   expression ('>'|'>='|'<'|'<='|'!='|'==') expression
-        |   expression ('&&'|'||') expression
-        |   '!' expression
-        |   CHAR_CONSTANT
-        |   REAL_CONSTANT
-        |   INT_CONSTANT
-        |   ID
+expression returns [Expression ast]:
+            fi = function_invocation    { $ast = $fi.ast; }
+        |   '(' type = built_in_type ')' e1 = expression    { $ast = new Indexing($type.ast.getLine(), $type.ast.getCharPositionInLine()+1, $type.ast, $e1.ast); }
+        |   e1 = expression '[' e2 = expression ']'   { $ast = new Indexing($e1.ast.getLine(), $e1.ast.getCharPositionInLine()+1, $e1.ast, $e2.ast); }
+        |   e1 = expression '.' v = ID    { $ast = new Access($e1.ast.getLine(), $e1.ast.getCharPositionInLine()+1, $e1.ast, $v.text); }
+        |   t = '-' e1 = expression { $ast = new UnaryMinus($t.getLine(), $t.getCharPositionInLine()+1, $e1.ast); }
+        |   e1= expression op = ('*'|'/'|'%') e2 = expression { $ast = new Arithmetic($e1.ast.getLine(), $e1.ast.getCharPositionInLine()+1, $op.text, $e1.ast, $e2.ast); }
+        |   e1 = expression op = ('+'|'-') e2 = expression  { $ast = new Arithmetic($e1.ast.getLine(), $e1.ast.getCharPositionInLine()+1, $op.text, $e1.ast, $e2.ast); }
+        |   e1 = expression op = ('>'|'>='|'<'|'<='|'!='|'==') e2 = expression  { $ast = new Comparisson($e1.ast.getLine(), $e1.ast.getCharPositionInLine()+1, $op.text, $e1.ast, $e2.ast); }
+        |   e1 = expression op = ('&&'|'||') e2 = expression   { $ast = new Logical($e1.ast.getLine(), $e1.ast.getCharPositionInLine()+1, $op.text, $e1.ast, $e2.ast); }
+        |   t = '!' e1 = expression { $ast = new UnaryNot($t.getLine(), $t.getCharPositionInLine()+1, $e1.ast); }
+        |   t = CHAR_CONSTANT   { $ast = new CharLiteral($t.getLine(), $t.getCharPositionInLine()+1, LexerHelper.lexemeToChar($t.text)); }
+        |   t = REAL_CONSTANT   { $ast = new DoubleLiteral($t.getLine(), $t.getCharPositionInLine()+1, LexerHelper.lexemeToReal($t.text)); }
+        |   t = INT_CONSTANT    { $ast = new IntLiteral($t.getLine(), $t.getCharPositionInLine()+1, LexerHelper.lexemeToInt($t.text)); }
+        |   t = ID  { $ast = new Variable($t.getLine(), $t.getCharPositionInLine()+1, $t.text); }
         ;
 
 fragment
