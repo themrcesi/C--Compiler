@@ -52,8 +52,10 @@ statement: 'while' '(' expression ')' block
 
 function_invocation: ID '(' argument ')';
 
-argument:  expression
-        |   expression (',' expression)*
+argument returns [List<Expression> ast = new ArrayList<Expression>()]:
+            es = expression  { $ast.add($es.ast); }
+        |   em1 = expression { $ast.add($em1.ast); }
+                            (',' em2 = expression { $ast.add($em2.ast); })*
         |
         ;
 
