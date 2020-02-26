@@ -57,8 +57,9 @@ argument:  expression
         |
         ;
 
-block:  statement
-    |   '{' statement* '}'
+block returns [List<Statement> ast = new ArrayList<Statement>()]:
+        ss = statement   { $ast.add($ss.ast); }
+    |   '{' (sm = statement  { $ast.add($sm.ast); })* '}'
     ;
 
 expression returns [Expression ast]:
