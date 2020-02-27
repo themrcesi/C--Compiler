@@ -7,7 +7,7 @@ public class Cast extends ASTAbstractNode implements Expression {
     private Type type;
     private Expression expression;
 
-    public Cast(int line, int column, Type type, Expression expression)
+    public Cast (int line, int column, Type type, Expression expression)
     {
         super(line, column);
         this.type = type;

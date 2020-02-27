@@ -21,9 +21,8 @@ public class Main {
 		// create a parser that feeds off the tokens buffer
 		CommonTokenStream tokens = new CommonTokenStream(lexer); 
 		CmmParser parser = new CmmParser(tokens);
-
-		parser.program();
-		Program root = parser.program().;
+		
+		Program root = parser.program().ast;
 
 		IntrospectorModel model = new IntrospectorModel("Root", root);
 		new IntrospectorTree("Tree", model);

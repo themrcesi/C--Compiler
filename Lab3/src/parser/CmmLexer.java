@@ -3,7 +3,7 @@ package parser;
 
     import ast.*;
     import ast.types.*;
-    import java.util*;
+    import java.util.*;
 
 import org.antlr.v4.runtime.Lexer;
 import org.antlr.v4.runtime.CharStream;
