@@ -23,10 +23,10 @@ public class Main {
 		CmmParser parser = new CmmParser(tokens);
 
 		parser.program();
-		//Program ast = parser.program().ast;
+		Program ast = parser.program().;
 
-//		IntrospectorModel model = new IntrospectorModel("Root", ast);
-//		new IntrospectorTree("Tree", model);
+		IntrospectorModel model = new IntrospectorModel("Root", ast);
+		new IntrospectorTree("Tree", model);
 	}
 	
 

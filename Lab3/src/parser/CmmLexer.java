@@ -1,5 +1,10 @@
 // Generated from D:/OneDrive - Universidad de Oviedo/Documentos/Universidad/España_3-4/DLP/Programming-Language-Design/Lab3/src/parser\Cmm.g4 by ANTLR 4.8
 package parser;
+
+    import ast.*;
+    import ast.types.*;
+    import java.util*;
+
 import org.antlr.v4.runtime.Lexer;
 import org.antlr.v4.runtime.CharStream;
 import org.antlr.v4.runtime.Token;

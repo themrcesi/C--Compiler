@@ -6,20 +6,28 @@ grammar Cmm;
     import java.util*;
 }
 
-program returns [List<Definition> ast = new ArrayList<Definition>()]:
-        (variable_definition|function_definition)* main
+program returns [Program ast]
+        locals[List<Definition> defs = new ArrayList<Definition>()]:
+        (d = definition { for(Definition def :$d) $defs.add(def); })* m = main {
+            $defs.add($m.ast);
+            $ast = new Program(1,1, $defs)}
        ;
 
-main: 'void' 'main' '(' ')' '{' function_body '}'
-    ;
+main returns [FunctionDefinition ast]:
+        t = 'void' n = 'main' '(' ')' '{' b = function_body '}'
+        {   FunctionType ft = new FunctionType($n.getLine(), $n.getColumn(), new VoidType($t.getLine(), $t.getCharPositionInLine()), new ArrayList<VarDefinition>());
+            $ast = new FunctionDefinition($n.getLine(), $n.getCharPositionInLine()+1, $n.text, ft, $b.ast); }
+        ;
 
-definition returns [Definition ast]:
-        v = variable_definition { $ast = $v.ast; }
-        |   f = function_definition { $ast = $f.ast; }
+definition returns [List<Definition> ast = new ArrayList<Definition>()]:
+        v = variable_definition { for(VarDefinition d: $v.ast) $ast.add(d); }
+        |   f = function_definition { $ast.add($f.ast); }
         ;
 
 function_definition returns [FunctionDefinition ast]:
-         t = type n = ID '(' p = parameter ')' '{' b = function_body '}'
+            t = type n = ID '(' p = parameter ')' '{' b = function_body '}'
+            {   FunctionType ft = new FunctionType($n.getLine(), $n.getCharPositionInLine()+1, $t.ast, $p.ast);
+                $ast = new FunctionDefinition($n.getLine(), $n.getCharPositionInLine()+1, $n.text, ft, $b.ast); }
         ;
 
 variable_definition returns [List<VarDefinition> ast = new ArrayList<VarDefinition>()]:
@@ -28,7 +36,7 @@ variable_definition returns [List<VarDefinition> ast = new ArrayList<VarDefiniti
         ;
 
 function_body returns [List<Statement> ast = new ArrayList<Statement>()]:
-        (v = variable_definition { $ast.add($v.ast); })* (s = statement { $ast.add($s.ast); })*;
+        (v = variable_definition { for(VarDefinition vd: $v.ast) $ast.add(vd); })* (s = statement { for(Statement st: $s.ast) $ast.add(st); })*;
 
 parameter returns [List<VarDefinition> ast = new ArrayList<VarDefinition>()]:
         b1 = built_in_type i1 = ID { $ast.add(new VarDefinition($b1.ast.getLine(), $b1.ast.getCharPositionInLine(), $b1.ast, $i1.text)); }
@@ -40,13 +48,13 @@ type returns [Type ast]
     locals[List<RecordField> rfs = new ArrayList<RecordField>()]:
         bt = built_in_type  { $ast = $bt.ast; }
     |   t = type '[' s = INT_CONSTANT ']'   { $ast = new ArrayType($t.ast.getLine(), $t.ast.getCharPositionInLine()+1, LexerHelper.lexemeToInt($s.text)); }
-    |   n = 'struct' '{' (rf = record_field { for(RecordField r: $rf) $rfs.add(r); })* '}' { $ast = new RecordType($n.getLine(), $n.getCharPositionInLine()+1, $rfs); }
-    |   v = 'void' { $ast = new VoidType($v.getLine(), $v.getCharPositionInLine()+1); }
+    |   n = 'struct' '{' (rf = record_field { for(RecordField r: $rf.ast) $rfs.add(r); })* '}' { $ast = new RecordType($n.getLine(), $n.getCharPositionInLine()+1, $rfs); }
+    |   v = 'void' { $ast = new VoidType($v.getLine(), $v.getCharPositionInLine()); }
     ;
 
 record_field returns [List<RecordField> ast = new ArrayList<RecordField>()]:
-            t = type i1 = ID { $ast.add(new RecordField($t.ast.getLine(), $t.getCharPositionInLine()+1, $t.ast, $i1.text)); }
-                (',' i2 = ID { $ast.add(new RecordField($t.ast.getLine(), $t.getCharPositionInLine()+1, $t.ast, $i2.text)); })* ';'
+            t = type i1 = ID { $ast.add(new RecordField($t.ast.getLine(), $t.ast.getCharPositionInLine()+1, $t.ast, $i1.text)); }
+                (',' i2 = ID { $ast.add(new RecordField($t.ast.getLine(), $t.ast.getCharPositionInLine()+1, $t.ast, $i2.text)); })* ';'
             ;
 
 built_in_type returns [Type ast]:  t = 'int'    { $ast = new IntType($t.getLine(), $t.getCharPositionInLine()+1); }
@@ -60,8 +68,8 @@ statement returns [List<Statement> ast = new ArrayList<Statement>()]
         |   'if' '(' e1 = expression ')' b = block { $stmt = new If($e1.ast.getLine(), $e1.ast.getCharPositionInLine()+1, $e1.ast, $b.ast); }
                 ('else' b2 = block { ((If)$stmt).setElse($b2.ast); })?    { $ast.add($stmt); }
         |   e1 = expression '=' e2 = expression ';'   { $ast.add(new Assignment($e1.ast.getLine(), $e1.ast.getCharPositionInLine(), $e1.ast, $e2.ast)); }
-        |   t = 'read' exs = expressions ';' { for(Expression e: $exs) $ast.add(new Read($t.getLine(), $t.getCharPositionInLine()+1, e)); }
-        |   t = 'write' exs = expressions ';' { for(Expression e: $exs) $ast.add(new Read($t.getLine(), $t.getCharPositionInLine()+1, e)); }
+        |   t = 'read' exs = expressions ';' { for(Expression e: $exs.ast) $ast.add(new Read($t.getLine(), $t.getCharPositionInLine()+1, e)); }
+        |   t = 'write' exs = expressions ';' { for(Expression e: $exs.ast) $ast.add(new Read($t.getLine(), $t.getCharPositionInLine()+1, e)); }
         |   t = 'return' e = expression ';' { $ast.add(new Return($t.getLine(), $t.getCharPositionInLine(), $e.ast)); }
         |   f = function_invocation ';' { $ast.add($f.ast); }
         ;
@@ -90,7 +98,7 @@ block returns [List<Statement> ast = new ArrayList<Statement>()]:
 
 expression returns [Expression ast]:
             fi = function_invocation    { $ast = $fi.ast; }
-        |   '(' type = built_in_type ')' e1 = expression    { $ast = new Indexing($type.ast.getLine(), $type.ast.getCharPositionInLine()+1, $type.ast, $e1.ast); }
+        |   '(' ty = built_in_type ')' e1 = expression    { $ast = new Indexing($ty.ast.getLine(), $ty.ast.getCharPositionInLine()+1, $ty.ast, $e1.ast); }
         |   e1 = expression '[' e2 = expression ']'   { $ast = new Indexing($e1.ast.getLine(), $e1.ast.getCharPositionInLine()+1, $e1.ast, $e2.ast); }
         |   e1 = expression '.' v = ID    { $ast = new Access($e1.ast.getLine(), $e1.ast.getCharPositionInLine()+1, $e1.ast, $v.text); }
         |   t = '-' e1 = expression { $ast = new UnaryMinus($t.getLine(), $t.getCharPositionInLine()+1, $e1.ast); }
