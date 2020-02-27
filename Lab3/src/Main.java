@@ -23,9 +23,9 @@ public class Main {
 		CmmParser parser = new CmmParser(tokens);
 
 		parser.program();
-		Program ast = parser.program().;
+		Program root = parser.program().;
 
-		IntrospectorModel model = new IntrospectorModel("Root", ast);
+		IntrospectorModel model = new IntrospectorModel("Root", root);
 		new IntrospectorTree("Tree", model);
 	}
 	

@@ -8,7 +8,7 @@ grammar Cmm;
 
 program returns [Program ast]
         locals[List<Definition> defs = new ArrayList<Definition>()]:
-        (d = definition { for(Definition def :$d) $defs.add(def); })* m = main {
+        (d = definition { for(Definition def :$d.ast) $defs.add(def); })* m = main {
             $defs.add($m.ast);
             $ast = new Program(1,1, $defs)}
        ;
