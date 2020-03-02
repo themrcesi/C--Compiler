@@ -366,7 +366,7 @@ public class CmmParser extends Parser {
 			((Variable_definitionContext)_localctx).t = type(0);
 			setState(71);
 			((Variable_definitionContext)_localctx).i1 = match(ID);
-			 _localctx.ast.add(new VarDefinition(((Variable_definitionContext)_localctx).t.ast.getLine(), ((Variable_definitionContext)_localctx).t.ast.getColumn(), ((Variable_definitionContext)_localctx).t.ast, (((Variable_definitionContext)_localctx).i1!=null?((Variable_definitionContext)_localctx).i1.getText():null))); 
+			 _localctx.ast.add(new VarDefinition(((Variable_definitionContext)_localctx).i1.getLine(), ((Variable_definitionContext)_localctx).i1.getCharPositionInLine()+1, ((Variable_definitionContext)_localctx).t.ast, (((Variable_definitionContext)_localctx).i1!=null?((Variable_definitionContext)_localctx).i1.getText():null))); 
 			setState(78);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
@@ -377,7 +377,7 @@ public class CmmParser extends Parser {
 				match(T__6);
 				setState(74);
 				((Variable_definitionContext)_localctx).i2 = match(ID);
-				 _localctx.ast.add(new VarDefinition(((Variable_definitionContext)_localctx).t.ast.getLine(), ((Variable_definitionContext)_localctx).t.ast.getColumn(), ((Variable_definitionContext)_localctx).t.ast, (((Variable_definitionContext)_localctx).i2!=null?((Variable_definitionContext)_localctx).i2.getText():null))); 
+				 _localctx.ast.add(new VarDefinition(((Variable_definitionContext)_localctx).i2.getLine(), ((Variable_definitionContext)_localctx).i2.getCharPositionInLine()+1, ((Variable_definitionContext)_localctx).t.ast, (((Variable_definitionContext)_localctx).i2!=null?((Variable_definitionContext)_localctx).i2.getText():null))); 
 				}
 				}
 				setState(80);
@@ -716,7 +716,7 @@ public class CmmParser extends Parser {
 			((Record_fieldContext)_localctx).t = type(0);
 			setState(146);
 			((Record_fieldContext)_localctx).i1 = match(ID);
-			 _localctx.ast.add(new RecordField(((Record_fieldContext)_localctx).t.ast.getLine(), ((Record_fieldContext)_localctx).t.ast.getColumn(), ((Record_fieldContext)_localctx).t.ast, (((Record_fieldContext)_localctx).i1!=null?((Record_fieldContext)_localctx).i1.getText():null))); 
+			 _localctx.ast.add(new RecordField(((Record_fieldContext)_localctx).i1.getLine(), ((Record_fieldContext)_localctx).i1.getCharPositionInLine()+1, ((Record_fieldContext)_localctx).t.ast, (((Record_fieldContext)_localctx).i1!=null?((Record_fieldContext)_localctx).i1.getText():null))); 
 			setState(153);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
@@ -727,7 +727,7 @@ public class CmmParser extends Parser {
 				match(T__6);
 				setState(149);
 				((Record_fieldContext)_localctx).i2 = match(ID);
-				 _localctx.ast.add(new RecordField(((Record_fieldContext)_localctx).t.ast.getLine(), ((Record_fieldContext)_localctx).t.ast.getColumn(), ((Record_fieldContext)_localctx).t.ast, (((Record_fieldContext)_localctx).i2!=null?((Record_fieldContext)_localctx).i2.getText():null))); 
+				 _localctx.ast.add(new RecordField(((Record_fieldContext)_localctx).i2.getLine(), ((Record_fieldContext)_localctx).i2.getCharPositionInLine()+1, ((Record_fieldContext)_localctx).t.ast, (((Record_fieldContext)_localctx).i2!=null?((Record_fieldContext)_localctx).i2.getText():null))); 
 				}
 				}
 				setState(155);

@@ -31,8 +31,8 @@ function_definition returns [FunctionDefinition ast]:
         ;
 
 variable_definition returns [List<VarDefinition> ast = new ArrayList<VarDefinition>()]:
-        t = type i1 = ID { $ast.add(new VarDefinition($t.ast.getLine(), $t.ast.getColumn(), $t.ast, $i1.text)); }
-            (',' i2 = ID { $ast.add(new VarDefinition($t.ast.getLine(), $t.ast.getColumn(), $t.ast, $i2.text)); })* ';'
+        t = type i1 = ID { $ast.add(new VarDefinition($i1.getLine(), $i1.getCharPositionInLine()+1, $t.ast, $i1.text)); }
+            (',' i2 = ID { $ast.add(new VarDefinition($i2.getLine(), $i2.getCharPositionInLine()+1, $t.ast, $i2.text)); })* ';'
         ;
 
 function_body returns [List<Statement> ast = new ArrayList<Statement>()]:
@@ -53,8 +53,8 @@ type returns [Type ast]
     ;
 
 record_field returns [List<RecordField> ast = new ArrayList<RecordField>()]:
-            t = type i1 = ID { $ast.add(new RecordField($t.ast.getLine(), $t.ast.getColumn(), $t.ast, $i1.text)); }
-                (',' i2 = ID { $ast.add(new RecordField($t.ast.getLine(), $t.ast.getColumn(), $t.ast, $i2.text)); })* ';'
+            t = type i1 = ID { $ast.add(new RecordField($i1.getLine(), $i1.getCharPositionInLine()+1, $t.ast, $i1.text)); }
+                (',' i2 = ID { $ast.add(new RecordField($i2.getLine(), $i2.getCharPositionInLine()+1, $t.ast, $i2.text)); })* ';'
             ;
 
 built_in_type returns [Type ast]:  t = 'int'    { $ast = new IntType($t.getLine(), $t.getCharPositionInLine()+1); }
