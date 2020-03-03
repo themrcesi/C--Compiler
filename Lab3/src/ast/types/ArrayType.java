@@ -13,5 +13,17 @@ public class ArrayType extends ASTAbstractNode implements Type {
         this.type = t;
         this.size = size;
     }
+
+    public void setType(Type type)
+    {
+        if(this.type instanceof ArrayType)
+        {
+            ((ArrayType)this.type).setType(type);
+        }
+        else //the actual type
+        {
+            this.type = type;
+        }
+    }
 }
 

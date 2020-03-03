@@ -12,16 +12,4 @@ public class VarDefinition extends ASTAbstractNode implements Definition, Statem
         this.type = type;
         this.name = name;
     }
-
-    @Override
-    public String getName() {
-        return this.name;
-    }
-
-    @Override
-    public Type getType()
-    {
-
-        return this.type;
-    }
 }

@@ -19,14 +19,4 @@ public class FunctionDefinition extends ASTAbstractNode implements Definition{
         this.type = type;
         this.body = new ArrayList<Statement>(statements);
     }
-
-    @Override
-    public String getName() {
-        return this.name;
-    }
-
-    @Override
-    public Type getType() {
-        return this.type;
-    }
 }

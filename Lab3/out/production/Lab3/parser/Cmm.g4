@@ -48,6 +48,7 @@ type returns [Type ast]
     locals[List<RecordField> rfs = new ArrayList<RecordField>()]:
         bt = built_in_type  { $ast = $bt.ast; }
     |   t = type '[' s = INT_CONSTANT ']'   { $ast = new ArrayType($t.ast.getLine(), $t.ast.getColumn(), $t.ast, LexerHelper.lexemeToInt($s.text)); }
+        ( '[' INT_CONSTANT ']' { ((ArrayType)$ast).setType(new ArrayType($t.ast.getLine(), $t.ast.getColumn(), $t.ast, LexerHelper.lexemeToInt($INT_CONSTANT.text))); })*
     |   n = 'struct' '{' (rf = record_field { for(RecordField r: $rf.ast) $rfs.add(r); })* '}' { $ast = new RecordType($n.getLine(), $n.getCharPositionInLine()+1, $rfs); }
     |   v = 'void' { $ast = new VoidType($v.getLine(), $v.getCharPositionInLine()); }
     ;
@@ -99,16 +100,16 @@ block returns [List<Statement> ast = new ArrayList<Statement>()]:
 expression returns [Expression ast]:
             '(' e1 = expression ')' { $ast = $e1.ast; }
         |   '[' e1 = expression ']' { $ast = $e1.ast; }
-        |   fi = function_invocation    { $ast = $fi.ast; }
+        |   e1 = expression '.' v = ID    { $ast = new Access($e1.ast.getLine(), $e1.ast.getColumn(), $e1.ast, $v.text); }
         |   '(' ty = type ')' e1 = expression    { $ast = new Cast($ty.ast.getLine(), $ty.ast.getColumn(), $ty.ast, $e1.ast); }
         |   e1 = expression '[' e2 = expression ']'   { $ast = new Indexing($e1.ast.getLine(), $e1.ast.getColumn(), $e1.ast, $e2.ast); }
-        |   e1 = expression '.' v = ID    { $ast = new Access($e1.ast.getLine(), $e1.ast.getColumn(), $e1.ast, $v.text); }
         |   t = '-' e1 = expression { $ast = new UnaryMinus($t.getLine(), $t.getCharPositionInLine()+1, $e1.ast); }
         |   e1= expression op = ('*'|'/'|'%') e2 = expression { $ast = new Arithmetic($e1.ast.getLine(), $e1.ast.getColumn(), $op.text, $e1.ast, $e2.ast); }
         |   e1 = expression op = ('+'|'-') e2 = expression  { $ast = new Arithmetic($e1.ast.getLine(), $e1.ast.getColumn(), $op.text, $e1.ast, $e2.ast); }
         |   e1 = expression op = ('>'|'>='|'<'|'<='|'!='|'==') e2 = expression  { $ast = new Comparisson($e1.ast.getLine(), $e1.ast.getColumn(), $op.text, $e1.ast, $e2.ast); }
-        |   e1 = expression op = ('&&'|'||') e2 = expression   { $ast = new Logical($e1.ast.getLine(), $e1.ast.getColumn(), $op.text, $e1.ast, $e2.ast); }
         |   t = '!' e1 = expression { $ast = new UnaryNot($t.getLine(), $t.getCharPositionInLine()+1, $e1.ast); }
+        |   e1 = expression op = ('&&'|'||') e2 = expression   { $ast = new Logical($e1.ast.getLine(), $e1.ast.getColumn(), $op.text, $e1.ast, $e2.ast); }
+        |   fi = function_invocation    { $ast = $fi.ast; }
         |   t = CHAR_CONSTANT   { $ast = new CharLiteral($t.getLine(), $t.getCharPositionInLine()+1, LexerHelper.lexemeToChar($t.text)); }
         |   t = REAL_CONSTANT   { $ast = new DoubleLiteral($t.getLine(), $t.getCharPositionInLine()+1, LexerHelper.lexemeToReal($t.text)); }
         |   t = INT_CONSTANT    { $ast = new IntLiteral($t.getLine(), $t.getCharPositionInLine()+1, LexerHelper.lexemeToInt($t.text)); }
