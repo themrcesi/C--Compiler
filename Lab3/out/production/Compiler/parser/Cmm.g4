@@ -10,7 +10,7 @@ program returns [Program ast]
         locals[List<Definition> defs = new ArrayList<Definition>()]:
         (d = definition { for(Definition def :$d.ast) $defs.add(def); })* m = main {
             $defs.add($m.ast);
-            $ast = new Program(1,1, $defs); }
+            $ast = new Program(1,1, $defs); } EOF
        ;
 
 main returns [FunctionDefinition ast]:
@@ -28,6 +28,9 @@ function_definition returns [FunctionDefinition ast]:
             t = type n = ID '(' p = parameter ')' '{' b = function_body '}'
             {   FunctionType ft = new FunctionType($n.getLine(), $n.getCharPositionInLine()+1, $t.ast, $p.ast);
                 $ast = new FunctionDefinition($n.getLine(), $n.getCharPositionInLine()+1, $n.text, ft, $b.ast); }
+            |   t2 = 'void' n = ID '(' p = parameter ')' '{' b = function_body '}'
+                {   FunctionType ft = new FunctionType($n.getLine(), $n.getCharPositionInLine()+1, new VoidType($t2.getLine(), $t2.getCharPositionInLine()), $p.ast);
+                    $ast = new FunctionDefinition($n.getLine(), $n.getCharPositionInLine()+1, $n.text, ft, $b.ast); }
         ;
 
 variable_definition returns [List<VarDefinition> ast = new ArrayList<VarDefinition>()]:
@@ -47,10 +50,15 @@ parameter returns [List<VarDefinition> ast = new ArrayList<VarDefinition>()]:
 type returns [Type ast]
     locals[List<RecordField> rfs = new ArrayList<RecordField>()]:
         bt = built_in_type  { $ast = $bt.ast; }
-    |   t = type '[' s = INT_CONSTANT ']'   { $ast = new ArrayType($t.ast.getLine(), $t.ast.getColumn(), $t.ast, LexerHelper.lexemeToInt($s.text)); }
-        ( '[' s2 = INT_CONSTANT ']' { ((ArrayType)$ast).setType(new ArrayType($t.ast.getLine(), $t.ast.getColumn(), $t.ast, LexerHelper.lexemeToInt($s2.text))); })*
+    |   t = type { $ast = $t.ast; }  ('[' s = INT_CONSTANT ']'   {
+            Type prev = $ast;
+            if (prev instanceof ArrayType)   {
+                ((ArrayType)prev).setType(new ArrayType(prev.getLine(), prev.getColumn(), ((ArrayType)prev).getType(), LexerHelper.lexemeToInt($s.text)));
+                $ast = prev;
+            }
+            else
+                $ast = new ArrayType(prev.getLine(), prev.getColumn(), prev, LexerHelper.lexemeToInt($s.text)); })+
     |   n = 'struct' '{' (rf = record_field { for(RecordField r: $rf.ast) $rfs.add(r); })* '}' { $ast = new RecordType($n.getLine(), $n.getCharPositionInLine()+1, $rfs); }
-    |   v = 'void' { $ast = new VoidType($v.getLine(), $v.getCharPositionInLine()); }
     ;
 
 record_field returns [List<RecordField> ast = new ArrayList<RecordField>()]:

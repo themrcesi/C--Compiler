@@ -4,13 +4,13 @@ import ast.types.Type;
 
 public class Cast extends ASTAbstractNode implements Expression {
 
-    private Type type;
+    private Type castType;
     private Expression expression;
 
     public Cast (int line, int column, Type type, Expression expression)
     {
         super(line, column);
-        this.type = type;
+        this.castType = type;
         this.expression = expression;
     }
 }
