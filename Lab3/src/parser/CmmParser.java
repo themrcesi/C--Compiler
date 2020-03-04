@@ -952,7 +952,7 @@ public class CmmParser extends Parser {
 				((StatementContext)_localctx).exs = expressions();
 				setState(209);
 				match(T__7);
-				 for(Expression e: ((StatementContext)_localctx).exs.ast) _localctx.ast.add(new Read(((StatementContext)_localctx).t.getLine(), ((StatementContext)_localctx).t.getCharPositionInLine()+1, e)); 
+				 for(Expression e: ((StatementContext)_localctx).exs.ast) _localctx.ast.add(new Write(((StatementContext)_localctx).t.getLine(), ((StatementContext)_localctx).t.getCharPositionInLine()+1, e)); 
 				}
 				break;
 			case 6:

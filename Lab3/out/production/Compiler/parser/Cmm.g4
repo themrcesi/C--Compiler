@@ -70,7 +70,7 @@ statement returns [List<Statement> ast = new ArrayList<Statement>()]
                 ('else' b2 = block { ((If)$stmt).setElse($b2.ast); })?    { $ast.add($stmt); }
         |   e1 = expression '=' e2 = expression ';'   { $ast.add(new Assignment($e1.ast.getLine(), $e1.ast.getColumn(), $e1.ast, $e2.ast)); }
         |   t = 'read' exs = expressions ';' { for(Expression e: $exs.ast) $ast.add(new Read($t.getLine(), $t.getCharPositionInLine()+1, e)); }
-        |   t = 'write' exs = expressions ';' { for(Expression e: $exs.ast) $ast.add(new Read($t.getLine(), $t.getCharPositionInLine()+1, e)); }
+        |   t = 'write' exs = expressions ';' { for(Expression e: $exs.ast) $ast.add(new Write($t.getLine(), $t.getCharPositionInLine()+1, e)); }
         |   t = 'return' e = expression ';' { $ast.add(new Return($t.getLine(), $t.getCharPositionInLine(), $e.ast)); }
         |   f = function_invocation ';' { $ast.add($f.ast); }
         ;
