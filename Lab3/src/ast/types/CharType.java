@@ -8,4 +8,10 @@ public class CharType extends ASTAbstractNode implements Type {
     {
         super(line, column);
     }
+
+    @Override
+    public String toString()
+    {
+        return "CharType at "+getLine()+" ,"+getColumn();
+    }
 }

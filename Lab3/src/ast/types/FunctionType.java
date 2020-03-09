@@ -1,7 +1,7 @@
 package ast.types;
 
 import ast.ASTAbstractNode;
-import ast.VarDefinition;
+import ast.definitions.VarDefinition;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,5 +15,11 @@ public class FunctionType extends ASTAbstractNode implements Type {
         super(line, column);
         this.returnType = returnType;
         this.parameters = new ArrayList<VarDefinition>(parameters);
+    }
+
+    @Override
+    public String toString()
+    {
+        return "FunctionType at "+getLine()+" ,"+getColumn();
     }
 }

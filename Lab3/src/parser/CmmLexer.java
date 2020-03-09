@@ -4,6 +4,10 @@ package parser;
     import ast.*;
     import ast.types.*;
     import java.util.*;
+    import ast.expressions.*;
+    import ast.definitions.*;
+    import ast.statements.*;
+
 
 import org.antlr.v4.runtime.Lexer;
 import org.antlr.v4.runtime.CharStream;

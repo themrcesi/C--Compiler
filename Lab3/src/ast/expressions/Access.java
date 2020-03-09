@@ -1,0 +1,22 @@
+package ast.expressions;
+
+import ast.ASTAbstractNode;
+
+public class Access extends ASTAbstractNode implements Expression {
+
+    private Expression access;
+    private String member;
+
+    public Access(int line, int column, Expression access, String member)
+    {
+        super(line, column);
+        this.access = access;
+        this.member = member;
+    }
+
+    @Override
+    public String toString()
+    {
+        return "Access at "+getLine()+" ,"+getColumn();
+    }
+}

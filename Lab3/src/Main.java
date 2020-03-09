@@ -1,5 +1,6 @@
 import ast.ASTNode;
 import ast.Program;
+import errorHandler.ErrorHandler;
 import introspector.model.IntrospectorModel;
 import introspector.view.IntrospectorTree;
 import parser.*;
@@ -26,6 +27,8 @@ public class Main {
 
 		IntrospectorModel model = new IntrospectorModel("Root", root);
 		new IntrospectorTree("Tree", model);
+
+		ErrorHandler.getInstanceOf().showErrors(System.err);
 	}
 	
 

@@ -11,19 +11,75 @@ public class ArrayType extends ASTAbstractNode implements Type {
     {
         super(line, column);
         this.type = t;
-        this.size = size;
+        setSize(size);
+        //setSize(size);
     }
 
-    public void setType(Type type)
+    private void setSize(int size)
     {
         if(this.type instanceof ArrayType)
         {
-            ((ArrayType)this.type).setType(type);
+            this.size = ((ArrayType) this.type).getSize();
+            ((ArrayType) this.type).setSize(size);
         }
-        else //the actual type
+        else
         {
-            this.type = type;
+            this.size = size;
         }
+    }
+
+    @Override
+    public String toString()
+    {
+        StringBuilder sb = new StringBuilder();
+        sb.append("ArrayType: type = ");
+        sb.append(type.toString());
+        sb.append(" - size = ");
+        sb.append(size);
+        sb.append(" - at ");
+        sb.append(getLine());
+        sb.append(" ,"+getColumn());
+        return sb.toString();
+    }
+
+//    public void setType(Type prev)
+//    {
+//        if(this.type instanceof ArrayType)
+//        {
+//            ((ArrayType)this.type).setType(type);
+//        }
+//        else //the actual type
+//        {
+//            this.type = type;
+//        }
+//    }
+
+//    public void setType(Type previousType)
+//    {
+//        if(previousType instanceof ArrayType)
+//        {
+//            Type aux = ((ArrayType)previousType).getType();
+//            ((ArrayType) previousType).setType(aux);
+//            this.type = aux;
+//        }
+//        else {
+//            this.type = previousType;
+//        }
+//    }
+
+//    public void setType(Type type)
+//    {
+//        this.type = type;
+//    }
+
+    public int getSize()
+    {
+        return this.size;
+    }
+
+    public Type getType()
+    {
+        return this.type;
     }
 }
 

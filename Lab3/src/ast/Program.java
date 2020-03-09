@@ -1,7 +1,8 @@
 package ast;
 
+import ast.definitions.Definition;
+
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 public class Program extends ASTAbstractNode {
@@ -12,5 +13,11 @@ public class Program extends ASTAbstractNode {
     {
         super(line,column);
         this.defs = new ArrayList<Definition>(definitions);
+    }
+
+    @Override
+    public String toString()
+    {
+        return "Program at "+getLine()+" ,"+getColumn();
     }
 }

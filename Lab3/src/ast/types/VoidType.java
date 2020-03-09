@@ -8,4 +8,10 @@ public class VoidType extends ASTAbstractNode implements Type {
     {
         super(line,column);
     }
+
+    @Override
+    public String toString()
+    {
+        return "VoidType at "+getLine()+" ,"+getColumn();
+    }
 }
