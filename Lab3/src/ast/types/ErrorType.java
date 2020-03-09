@@ -1,6 +1,7 @@
 package ast.types;
 
 import ast.ASTAbstractNode;
+import errorHandler.ErrorHandler;
 
 public class ErrorType extends ASTAbstractNode implements Type {
 
@@ -9,6 +10,7 @@ public class ErrorType extends ASTAbstractNode implements Type {
     public ErrorType(int line, int column, String message) {
         super(line, column);
         this.message = message;
+        ErrorHandler.getInstanceOf().addError(this);
     }
 
     @Override

@@ -8,13 +8,18 @@ import java.util.List;
 
 public class ErrorHandler {
 
-    private ErrorHandler handler;
-    private List<ErrorType> errors = new ArrayList<ErrorType>();
+    private static ErrorHandler handler;
+    private List<ErrorType> errors;
 
-    public ErrorHandler getInstanceOf()
+    public static ErrorHandler getInstanceOf()
     {
-        if(this.handler==null) this.handler = new ErrorHandler();
-        return this.handler;
+        if(handler==null) handler = new ErrorHandler();
+        return handler;
+    }
+
+    private ErrorHandler()
+    {
+        this.errors = new ArrayList<ErrorType>();
     }
 
     public void addError(ErrorType error)
