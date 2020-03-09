@@ -1,7 +1,7 @@
 package ast.types;
 
 import ast.ASTAbstractNode;
-import ast.VarDefinition;
+import ast.definitions.VarDefinition;
 
 import java.util.ArrayList;
 import java.util.List;

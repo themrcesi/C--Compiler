@@ -4,6 +4,10 @@ grammar Cmm;
     import ast.*;
     import ast.types.*;
     import java.util.*;
+    import ast.expressions.*;
+    import ast.definitions.*;
+    import ast.statements.*;
+
 }
 
 program returns [Program ast]

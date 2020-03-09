@@ -1,7 +1,8 @@
 package ast;
 
+import ast.definitions.Definition;
+
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 public class Program extends ASTAbstractNode {
