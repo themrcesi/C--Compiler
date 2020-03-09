@@ -11,4 +11,10 @@ public class Access extends ASTAbstractNode implements Expression {
         this.access = access;
         this.member = member;
     }
+
+    @Override
+    public String toString()
+    {
+        return "Access at "+getLine()+" ,"+getColumn();
+    }
 }

@@ -9,4 +9,10 @@ public class Write extends ASTAbstractNode implements Statement{
         super(line, column);
         this.expression = expression;
     }
+
+    @Override
+    public String toString()
+    {
+        return "Write at "+getLine()+" ,"+getColumn();
+    }
 }

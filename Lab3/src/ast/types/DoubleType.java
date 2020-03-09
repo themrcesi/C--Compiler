@@ -8,4 +8,10 @@ public class DoubleType extends ASTAbstractNode implements Type {
     {
         super(line, column);
     }
+
+    @Override
+    public String toString()
+    {
+        return "DoubleType at "+getLine()+" ,"+getColumn();
+    }
 }

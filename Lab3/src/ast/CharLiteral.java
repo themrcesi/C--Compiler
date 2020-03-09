@@ -9,4 +9,10 @@ public class CharLiteral extends ASTAbstractNode implements Expression {
         super(line, column);
         this.value = value;
     }
+
+    @Override
+    public String toString()
+    {
+        return "CharLiteral at "+getLine()+" ,"+getColumn();
+    }
 }

@@ -13,4 +13,10 @@ public class Logical extends ASTAbstractNode implements Expression {
         this.exprLeft = exprLeft;
         this.exprRight = exprRight;
     }
+
+    @Override
+    public String toString()
+    {
+        return "Logical at "+getLine()+" ,"+getColumn();
+    }
 }

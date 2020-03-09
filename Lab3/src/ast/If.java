@@ -22,4 +22,10 @@ public class If extends ASTAbstractNode implements Statement
     {
         this.elseStatements = new ArrayList<Statement>(elseStatements);
     }
+
+    @Override
+    public String toString()
+    {
+        return "If at "+getLine()+" ,"+getColumn();
+    }
 }

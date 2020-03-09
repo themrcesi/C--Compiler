@@ -16,4 +16,10 @@ public class FunctionType extends ASTAbstractNode implements Type {
         this.returnType = returnType;
         this.parameters = new ArrayList<VarDefinition>(parameters);
     }
+
+    @Override
+    public String toString()
+    {
+        return "FunctionType at "+getLine()+" ,"+getColumn();
+    }
 }

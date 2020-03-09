@@ -15,4 +15,10 @@ public class Invocation extends ASTAbstractNode implements Statement, Expression
         this.name = name;
         this.arguments = new ArrayList<Expression>(arguments);
     }
+
+    @Override
+    public String toString()
+    {
+        return "Invocation at "+getLine()+" ,"+getColumn();
+    }
 }

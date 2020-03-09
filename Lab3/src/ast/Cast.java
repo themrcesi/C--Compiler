@@ -13,4 +13,10 @@ public class Cast extends ASTAbstractNode implements Expression {
         this.castType = type;
         this.expression = expression;
     }
+
+    @Override
+    public String toString()
+    {
+        return "Cast at "+getLine()+" ,"+getColumn();
+    }
 }

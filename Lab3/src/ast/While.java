@@ -14,4 +14,10 @@ public class While extends ASTAbstractNode implements Statement {
         this.condition = condition;
         this.body = new ArrayList<Statement>(body);
     }
+
+    @Override
+    public String toString()
+    {
+        return "Variable at "+getLine()+" ,"+getColumn();
+    }
 }

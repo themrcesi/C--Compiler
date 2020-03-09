@@ -9,4 +9,10 @@ public class UnaryMinus extends ASTAbstractNode implements Expression {
         super(line, column);
         this.expr = expr;
     }
+
+    @Override
+    public String toString()
+    {
+        return "UnaryMinus at "+getLine()+" ,"+getColumn();
+    }
 }

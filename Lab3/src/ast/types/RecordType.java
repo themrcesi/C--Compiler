@@ -14,4 +14,10 @@ public class RecordType extends ASTAbstractNode implements Type {
         super(line, column);
         this.fields = new ArrayList<RecordField>(fields);
     }
+
+    @Override
+    public String toString()
+    {
+        return "RecordType at "+getLine()+" ,"+getColumn();
+    }
 }

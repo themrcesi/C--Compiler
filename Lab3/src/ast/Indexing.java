@@ -11,4 +11,10 @@ public class Indexing extends ASTAbstractNode implements Expression {
         this.exprLeft = exprLeft;
         this.exprRight = exprRight;
     }
+
+    @Override
+    public String toString()
+    {
+        return "Indexing at "+getLine()+" ,"+getColumn();
+    }
 }

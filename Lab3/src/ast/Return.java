@@ -9,4 +9,10 @@ public class Return extends ASTAbstractNode implements Statement {
         super(line, column);
         this.returned = returned;
     }
+
+    @Override
+    public String toString()
+    {
+        return "Return at "+getLine()+" ,"+getColumn();
+    }
 }

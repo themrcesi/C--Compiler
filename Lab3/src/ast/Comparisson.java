@@ -13,4 +13,10 @@ public class Comparisson extends ASTAbstractNode implements Expression {
         this.exprRight = exprRight;
         this.operand = operand;
     }
+
+    @Override
+    public String toString()
+    {
+        return "Comparision at "+getLine()+" ,"+getColumn();
+    }
 }

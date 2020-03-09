@@ -28,6 +28,20 @@ public class ArrayType extends ASTAbstractNode implements Type {
         }
     }
 
+    @Override
+    public String toString()
+    {
+        StringBuilder sb = new StringBuilder();
+        sb.append("ArrayType: type = ");
+        sb.append(type.toString());
+        sb.append(" - size = ");
+        sb.append(size);
+        sb.append(" - at ");
+        sb.append(getLine());
+        sb.append(" ,"+getColumn());
+        return sb.toString();
+    }
+
 //    public void setType(Type prev)
 //    {
 //        if(this.type instanceof ArrayType)

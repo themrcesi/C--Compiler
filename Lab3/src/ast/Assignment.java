@@ -10,4 +10,10 @@ public class Assignment extends ASTAbstractNode implements Statement {
         this.leftEx = expressionLeft;
         this.rightEx = expressionRight;
     }
+
+    @Override
+    public String toString()
+    {
+        return "Assignment at "+getLine()+" ,"+getColumn();
+    }
 }

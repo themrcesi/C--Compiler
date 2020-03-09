@@ -9,4 +9,10 @@ public class DoubleLiteral extends ASTAbstractNode implements Expression {
         super(line, column);
         this.value = value;
     }
+
+    @Override
+    public String toString()
+    {
+        return "DoubleLiteral at "+getLine()+" ,"+getColumn();
+    }
 }

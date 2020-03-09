@@ -13,4 +13,10 @@ public class RecordField extends ASTAbstractNode {
         this.type = type;
         this.name = name;
     }
+
+    @Override
+    public String toString()
+    {
+        return "RecordField at "+getLine()+" ,"+getColumn();
+    }
 }

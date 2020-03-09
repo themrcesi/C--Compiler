@@ -12,4 +12,10 @@ public class VarDefinition extends ASTAbstractNode implements Definition, Statem
         this.type = type;
         this.name = name;
     }
+
+    @Override
+    public String toString()
+    {
+        return "VarDefinition at "+getLine()+" ,"+getColumn();
+    }
 }

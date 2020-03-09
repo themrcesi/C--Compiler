@@ -13,4 +13,10 @@ public class Arithmetic extends ASTAbstractNode implements Expression {
         this.exprLeft = exprLeft;
         this.exprRight = exprRight;
     }
+
+    @Override
+    public String toString()
+    {
+        return "Arithmetic at "+getLine()+" ,"+getColumn();
+    }
 }

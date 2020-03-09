@@ -9,4 +9,10 @@ public class Read extends ASTAbstractNode implements Statement {
         super(line, column);
         this.expression = expression;
     }
+
+    @Override
+    public String toString()
+    {
+        return "Read at "+getLine()+" ,"+getColumn();
+    }
 }

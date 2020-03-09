@@ -19,4 +19,10 @@ public class FunctionDefinition extends ASTAbstractNode implements Definition{
         this.type = type;
         this.body = new ArrayList<Statement>(statements);
     }
+
+    @Override
+    public String toString()
+    {
+        return "FunctionDefinition at "+getLine()+" ,"+getColumn();
+    }
 }

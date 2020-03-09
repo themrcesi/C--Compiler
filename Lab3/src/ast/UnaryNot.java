@@ -9,4 +9,10 @@ public class UnaryNot extends ASTAbstractNode implements Expression {
         super(line, column);
         this.expr = expr;
     }
+
+    @Override
+    public String toString()
+    {
+        return "UnaryNot at "+getLine()+" ,"+getColumn();
+    }
 }

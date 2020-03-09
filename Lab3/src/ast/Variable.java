@@ -9,4 +9,10 @@ public class Variable extends ASTAbstractNode implements Expression{
         super(line, column);
         this.name = name;
     }
+
+    @Override
+    public String toString()
+    {
+        return "Variable at "+getLine()+" ,"+getColumn();
+    }
 }
