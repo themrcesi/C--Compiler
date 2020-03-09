@@ -50,14 +50,7 @@ parameter returns [List<VarDefinition> ast = new ArrayList<VarDefinition>()]:
 type returns [Type ast]
     locals[List<RecordField> rfs = new ArrayList<RecordField>()]:
         bt = built_in_type  { $ast = $bt.ast; }
-    |   t = type { $ast = $t.ast; }  ('[' s = INT_CONSTANT ']'   {
-            Type prev = $ast;
-            if (prev instanceof ArrayType)   {
-                ((ArrayType)prev).setType(new ArrayType(prev.getLine(), prev.getColumn(), ((ArrayType)prev).getType(), LexerHelper.lexemeToInt($s.text)));
-                $ast = prev;
-            }
-            else
-                $ast = new ArrayType(prev.getLine(), prev.getColumn(), prev, LexerHelper.lexemeToInt($s.text)); })+
+    |   t = type '[' s = INT_CONSTANT ']' { $ast = new ArrayType($t.ast.getLine(), $t.ast.getColumn(), $t.ast, LexerHelper.lexemeToInt($s.text)); }
     |   n = 'struct' '{' (rf = record_field { for(RecordField r: $rf.ast) $rfs.add(r); })* '}' { $ast = new RecordType($n.getLine(), $n.getCharPositionInLine()+1, $rfs); }
     ;
 
