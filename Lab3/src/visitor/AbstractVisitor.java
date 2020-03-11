@@ -206,4 +206,5 @@ public abstract class AbstractVisitor<TP, TR> implements Visitor<TP, TR> {
     public TR visit(VoidType voidType, TP params) {
         return null;
     }
+
 }

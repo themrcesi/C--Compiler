@@ -12,6 +12,7 @@ public class Invocation extends ASTAbstractNode implements Statement, Expression
 
     private Variable name;
     private List<Expression> arguments;
+    private boolean lValue;
 
     public Invocation(int line, int column, Variable name, List<Expression> arguments)
     {
@@ -37,5 +38,15 @@ public class Invocation extends ASTAbstractNode implements Statement, Expression
 
     public List<Expression> getArguments() {
         return arguments;
+    }
+
+    @Override
+    public boolean isLValue() {
+        return lValue;
+    }
+
+    @Override
+    public void setLValue(boolean lValue) {
+        this.lValue = lValue;
     }
 }
