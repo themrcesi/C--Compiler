@@ -2,6 +2,7 @@ package ast.types;
 
 import ast.ASTAbstractNode;
 import errorHandler.ErrorHandler;
+import visitor.Visitor;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -36,5 +37,14 @@ public class RecordType extends ASTAbstractNode implements Type {
     public String toString()
     {
         return "RecordType at "+getLine()+" ,"+getColumn();
+    }
+
+    @Override
+    public <TP, TR> TR accept(Visitor<TP, TR> visitor, TP param) {
+        return visitor.visit(this, param);
+    }
+
+    public List<RecordField> getFields() {
+        return fields;
     }
 }

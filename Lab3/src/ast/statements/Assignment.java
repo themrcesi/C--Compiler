@@ -2,6 +2,7 @@ package ast.statements;
 
 import ast.ASTAbstractNode;
 import ast.expressions.Expression;
+import visitor.Visitor;
 
 public class Assignment extends ASTAbstractNode implements Statement {
 
@@ -18,5 +19,18 @@ public class Assignment extends ASTAbstractNode implements Statement {
     public String toString()
     {
         return "Assignment at "+getLine()+" ,"+getColumn();
+    }
+
+    @Override
+    public <TP, TR> TR accept(Visitor<TP, TR> visitor, TP param) {
+        return visitor.visit(this, param);
+    }
+
+    public Expression getLeftEx() {
+        return leftEx;
+    }
+
+    public Expression getRightEx() {
+        return rightEx;
     }
 }

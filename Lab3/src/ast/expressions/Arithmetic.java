@@ -1,8 +1,9 @@
 package ast.expressions;
 
 import ast.ASTAbstractNode;
+import visitor.Visitor;
 
-public class Arithmetic extends ASTAbstractNode implements Expression {
+public class Arithmetic extends AbstractExpression implements Expression {
 
     private String operator;
     private Expression exprLeft;
@@ -20,5 +21,22 @@ public class Arithmetic extends ASTAbstractNode implements Expression {
     public String toString()
     {
         return "Arithmetic at "+getLine()+" ,"+getColumn();
+    }
+
+    @Override
+    public <TP, TR> TR accept(Visitor<TP, TR> visitor, TP param) {
+        return visitor.visit(this, param);
+    }
+
+    public String getOperator() {
+        return operator;
+    }
+
+    public Expression getExprLeft() {
+        return exprLeft;
+    }
+
+    public Expression getExprRight() {
+        return exprRight;
     }
 }
