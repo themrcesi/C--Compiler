@@ -1,8 +1,9 @@
 package ast.expressions;
 
 import ast.ASTAbstractNode;
+import visitor.Visitor;
 
-public class Comparisson extends ASTAbstractNode implements Expression {
+public class Comparisson extends AbstractExpression implements Expression {
 
     private String operand;
     private Expression exprLeft;
@@ -20,5 +21,22 @@ public class Comparisson extends ASTAbstractNode implements Expression {
     public String toString()
     {
         return "Comparision at "+getLine()+" ,"+getColumn();
+    }
+
+    @Override
+    public <TP, TR> TR accept(Visitor<TP, TR> visitor, TP param) {
+        return visitor.visit(this, param);
+    }
+
+    public String getOperand() {
+        return operand;
+    }
+
+    public Expression getExprLeft() {
+        return exprLeft;
+    }
+
+    public Expression getExprRight() {
+        return exprRight;
     }
 }

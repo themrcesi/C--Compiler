@@ -3,6 +3,7 @@ package ast.definitions;
 import ast.ASTAbstractNode;
 import ast.statements.Statement;
 import ast.types.FunctionType;
+import visitor.Visitor;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,5 +26,22 @@ public class FunctionDefinition extends ASTAbstractNode implements Definition{
     public String toString()
     {
         return "FunctionDefinition at "+getLine()+" ,"+getColumn();
+    }
+
+    @Override
+    public <TP, TR> TR accept(Visitor<TP, TR> visitor, TP param) {
+        return visitor.visit(this, param);
+    }
+
+    public FunctionType getType() {
+        return type;
+    }
+
+    public ArrayList<Statement> getBody() {
+        return body;
+    }
+
+    public String getName() {
+        return name;
     }
 }

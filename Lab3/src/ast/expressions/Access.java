@@ -1,8 +1,9 @@
 package ast.expressions;
 
 import ast.ASTAbstractNode;
+import visitor.Visitor;
 
-public class Access extends ASTAbstractNode implements Expression {
+public class Access extends AbstractExpression implements Expression {
 
     private Expression access;
     private String member;
@@ -18,5 +19,18 @@ public class Access extends ASTAbstractNode implements Expression {
     public String toString()
     {
         return "Access at "+getLine()+" ,"+getColumn();
+    }
+
+    @Override
+    public <TP, TR> TR accept(Visitor<TP, TR> visitor, TP param) {
+        return visitor.visit(this, param);
+    }
+
+    public Expression getAccess() {
+        return access;
+    }
+
+    public String getMember() {
+        return member;
     }
 }

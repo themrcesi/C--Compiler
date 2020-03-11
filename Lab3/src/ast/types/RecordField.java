@@ -2,6 +2,7 @@ package ast.types;
 
 import ast.ASTAbstractNode;
 import ast.ASTNode;
+import visitor.Visitor;
 
 public class RecordField extends ASTAbstractNode {
 
@@ -23,5 +24,14 @@ public class RecordField extends ASTAbstractNode {
     public String toString()
     {
         return "RecordField at "+getLine()+" ,"+getColumn();
+    }
+
+    @Override
+    public <TP, TR> TR accept(Visitor<TP, TR> visitor, TP param) {
+        return visitor.visit(this, param);
+    }
+
+    public Type getType() {
+        return type;
     }
 }

@@ -2,6 +2,7 @@ package ast.types;
 
 import ast.ASTAbstractNode;
 import ast.definitions.VarDefinition;
+import visitor.Visitor;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,5 +22,18 @@ public class FunctionType extends ASTAbstractNode implements Type {
     public String toString()
     {
         return "FunctionType at "+getLine()+" ,"+getColumn();
+    }
+
+    @Override
+    public <TP, TR> TR accept(Visitor<TP, TR> visitor, TP param) {
+        return visitor.visit(this, param);
+    }
+
+    public Type getReturnType() {
+        return returnType;
+    }
+
+    public ArrayList<VarDefinition> getParameters() {
+        return parameters;
     }
 }

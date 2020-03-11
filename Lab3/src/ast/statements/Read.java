@@ -2,6 +2,7 @@ package ast.statements;
 
 import ast.ASTAbstractNode;
 import ast.expressions.Expression;
+import visitor.Visitor;
 
 public class Read extends ASTAbstractNode implements Statement {
 
@@ -17,5 +18,14 @@ public class Read extends ASTAbstractNode implements Statement {
     public String toString()
     {
         return "Read at "+getLine()+" ,"+getColumn();
+    }
+
+    @Override
+    public <TP, TR> TR accept(Visitor<TP, TR> visitor, TP param) {
+        return visitor.visit(this, param);
+    }
+
+    public Expression getExpression() {
+        return expression;
     }
 }

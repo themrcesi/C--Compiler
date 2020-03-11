@@ -1,8 +1,9 @@
 package ast.expressions;
 
 import ast.ASTAbstractNode;
+import visitor.Visitor;
 
-public class UnaryMinus extends ASTAbstractNode implements Expression {
+public class UnaryMinus extends AbstractExpression implements Expression {
 
     private Expression expr;
 
@@ -16,5 +17,14 @@ public class UnaryMinus extends ASTAbstractNode implements Expression {
     public String toString()
     {
         return "UnaryMinus at "+getLine()+" ,"+getColumn();
+    }
+
+    @Override
+    public <TP, TR> TR accept(Visitor<TP, TR> visitor, TP param) {
+        return visitor.visit(this, param);
+    }
+
+    public Expression getExpr() {
+        return expr;
     }
 }
