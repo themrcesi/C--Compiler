@@ -13,6 +13,7 @@ public class FunctionDefinition extends ASTAbstractNode implements Definition{
     private String name;
     private FunctionType type;
     private ArrayList<Statement> body;
+    private int scope;
 
     public FunctionDefinition(int line, int column, String name, FunctionType type, List<Statement> statements)
     {
@@ -41,6 +42,17 @@ public class FunctionDefinition extends ASTAbstractNode implements Definition{
         return body;
     }
 
+    @Override
+    public void setScope(int scope) {
+        this.scope = scope;
+    }
+
+    @Override
+    public int getScope() {
+        return this.scope;
+    }
+
+    @Override
     public String getName() {
         return name;
     }
