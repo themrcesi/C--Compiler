@@ -9,6 +9,7 @@ public class VarDefinition extends ASTAbstractNode implements Definition, Statem
 {
     private final String name;
     private Type type;
+    private int scope;
 
     public VarDefinition(int line, int column, Type type, String name) {
         super(line, column);
@@ -27,6 +28,17 @@ public class VarDefinition extends ASTAbstractNode implements Definition, Statem
         return visitor.visit(this, param);
     }
 
+    @Override
+    public void setScope(int scope) {
+        this.scope = scope;
+    }
+
+    @Override
+    public int getScope() {
+        return this.scope;
+    }
+
+    @Override
     public String getName() {
         return name;
     }
