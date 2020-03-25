@@ -3,6 +3,7 @@ package ast.definitions;
 import ast.ASTAbstractNode;
 import ast.statements.Statement;
 import ast.types.FunctionType;
+import ast.types.Type;
 import visitor.Visitor;
 
 import java.util.ArrayList;
@@ -34,6 +35,7 @@ public class FunctionDefinition extends ASTAbstractNode implements Definition{
         return visitor.visit(this, param);
     }
 
+    @Override
     public FunctionType getType() {
         return type;
     }
@@ -56,4 +58,5 @@ public class FunctionDefinition extends ASTAbstractNode implements Definition{
     public String getName() {
         return name;
     }
+
 }
