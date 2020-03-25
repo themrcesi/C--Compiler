@@ -23,7 +23,7 @@ public class RecordField extends ASTAbstractNode {
     @Override
     public String toString()
     {
-        return "RecordField at "+getLine()+" ,"+getColumn();
+        return type.toString()+" "+name;
     }
 
     @Override

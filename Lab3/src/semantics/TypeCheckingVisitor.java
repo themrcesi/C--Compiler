@@ -1,19 +1,34 @@
 package semantics;
 
+import ast.definitions.FunctionDefinition;
 import ast.expressions.*;
-import ast.statements.Assignment;
-import ast.statements.Invocation;
-import ast.statements.Read;
+import ast.statements.*;
 import ast.types.*;
 import visitor.AbstractVisitor;
-import visitor.Visitor;
 
 public class TypeCheckingVisitor extends AbstractVisitor<Type, Void> {
 
     //##########################################DEFINITIONS####################################################
-
+    @Override
+    public Void visit(FunctionDefinition funcDef, Type params) {
+        funcDef.getType().accept(this, funcDef.getType().getReturnType());
+        for (Statement st : funcDef.getBody())
+        {
+            st.accept(this, funcDef.getType().getReturnType());
+        }
+        return null;
+    }
 
     //##########################################STATEMENTS######################################################
+
+    @Override
+    public Void visit(Return returnSt, Type param)
+    {
+        returnSt.getReturned().accept(this, param);
+        if(!returnSt.getReturned().getType().equals(param))
+            new ErrorType(returnSt.getLine(), returnSt.getColumn(), "Returned "+returnSt.getReturned().getType().toString() + " when expecting "+param.toString());
+        return null;
+    }
 
     @Override
     public Void visit(Assignment assignment, Type param)
@@ -22,6 +37,13 @@ public class TypeCheckingVisitor extends AbstractVisitor<Type, Void> {
         assignment.getRightEx().accept(this, param);
         if(!assignment.getLeftEx().isLValue())
             new ErrorType(assignment.getLine(), assignment.getColumn(), "LValue required");
+
+        if (!(assignment.getLeftEx().getType() instanceof ErrorType)
+                && !(assignment.getRightEx().getType() instanceof ErrorType)) {
+            if (!assignment.getLeftEx().getType().isAssignable(assignment.getRightEx().getType())) {
+                new ErrorType(assignment.getLine(), assignment.getColumn(), "Both parts of the assignment must be equal, trying to assign a "+assignment.getRightEx().getType()+" to a "+assignment.getLeftEx().getType());
+            }
+        }
         return null;
     }
 
@@ -34,13 +56,48 @@ public class TypeCheckingVisitor extends AbstractVisitor<Type, Void> {
         return null;
     }
 
+    @Override
+    public Void visit(While whileSt, Type params)
+    {
+        whileSt.getCondition().accept(this, params);
+        whileSt.getBody().forEach(st -> st.accept(this, params));
+
+        if(!whileSt.getCondition().getType().isBoolean())
+            new ErrorType(whileSt.getLine(), whileSt.getColumn(), "Condition of a while must be boolean");
+
+        return null;
+    }
+
+    @Override
+    public Void visit(If ifSt, Type param)
+    {
+        ifSt.getCondition().accept(this, param);
+        ifSt.getIfStatements().forEach(st -> st.accept(this, param));
+        ifSt.getElseStatements().forEach(st -> st.accept(this, param));
+
+        if(!ifSt.getCondition().getType().isBoolean())
+            new ErrorType(ifSt.getLine(), ifSt.getColumn(), "Condition of an if must be boolean");
+
+        return null;
+    }
+
+    public Void visit(Write write, Type param)
+    {
+        write.getExpression().accept(this, param);
+
+        if(write.getExpression().getType().isWritable())
+            new ErrorType(write.getLine(), write.getColumn(), "Expression of a write must be writable");
+
+        return null;
+    }
+
     //#######################################EXPRESSIONS#####################################
 
     @Override
     public Void visit(Invocation invocation, Type params)
     {
         invocation.getName().accept(this, params);
-        invocation.getArguments().forEach(expression -> expression.accept(this,params));
+        invocation.getArguments().forEach(expression -> expression.accept(this, params));
         //lvalue
         invocation.setLValue(false);
         //set type
@@ -67,7 +124,7 @@ public class TypeCheckingVisitor extends AbstractVisitor<Type, Void> {
         //lvalue
         arithmetic.setLValue(false);
         //set type
-        arithmetic.setType(arithmetic.getExprLeft().getType().arithmetic(arithmetic.getExprRight().getType()));
+        arithmetic.setType(arithmetic.getExprLeft().getType().arithmetic(arithmetic.getExprRight().getType(), arithmetic));
         return null;
     }
 
@@ -123,7 +180,7 @@ public class TypeCheckingVisitor extends AbstractVisitor<Type, Void> {
         //lvalue
         indexing.setLValue(true);
         //set type
-        indexing.setType(indexing.getExprLeft().getType().squareBrackets(indexing.getExprRight().getType()));
+        indexing.setType(indexing.getExprLeft().getType().squareBrackets(indexing.getExprRight().getType(), indexing));
         return null;
     }
 
@@ -144,7 +201,7 @@ public class TypeCheckingVisitor extends AbstractVisitor<Type, Void> {
         //lvalue
         logical.setLValue(false);
         //set type
-        logical.setType(logical.getExprLeft().getType().logical(logical.getExprRight().getType()));
+        logical.setType(logical.getExprLeft().getType().logical(logical.getExprRight().getType(), logical));
         return null;
     }
 

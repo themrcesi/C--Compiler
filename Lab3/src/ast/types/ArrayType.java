@@ -1,9 +1,9 @@
 package ast.types;
 
-import ast.ASTAbstractNode;
+import ast.expressions.Expression;
 import visitor.Visitor;
 
-public class ArrayType extends ASTAbstractNode implements Type {
+public class ArrayType extends AbstractType implements Type {
 
     private Type type;
     private int size;
@@ -13,7 +13,6 @@ public class ArrayType extends ASTAbstractNode implements Type {
         super(line, column);
         this.type = t;
         setSize(size);
-        //setSize(size);
     }
 
     private void setSize(int size)
@@ -32,15 +31,7 @@ public class ArrayType extends ASTAbstractNode implements Type {
     @Override
     public String toString()
     {
-        StringBuilder sb = new StringBuilder();
-        sb.append("ArrayType: type = ");
-        sb.append(type.toString());
-        sb.append(" - size = ");
-        sb.append(size);
-        sb.append(" - at ");
-        sb.append(getLine());
-        sb.append(" ,"+getColumn());
-        return sb.toString();
+        return type.toString()+"["+size+"]";
     }
 
 //    public void setType(Type prev)
@@ -87,5 +78,25 @@ public class ArrayType extends ASTAbstractNode implements Type {
     public <TP, TR> TR accept(Visitor<TP, TR> visitor, TP param) {
         return visitor.visit(this, param);
     }
+
+    @Override
+    public Type squareBrackets(Type t, Expression indexing) {
+        if(t instanceof IntType) return this.getType();
+        if(t instanceof ErrorType) return t;
+        return new ErrorType(indexing.getLine(), indexing.getColumn(), "Array can only be indexed with integers, you tried with "+t.toString());
+    }
+
+//    @Override
+//    public boolean isAssignable(Type t)
+//    {
+//        if(t instanceof ArrayType)
+//        {
+//            ArrayType right = (ArrayType) t;
+//            if(this.type.assignment(right.getType())) //same type
+//                if(right.getSize()<=this.getSize()) // right size <= left size
+//                    return true;
+//        }
+//        return false;
+//    }
 }
 

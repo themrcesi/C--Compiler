@@ -3,7 +3,7 @@ package ast.types;
 import ast.ASTAbstractNode;
 import visitor.Visitor;
 
-public class VoidType extends ASTAbstractNode implements Type {
+public class VoidType extends AbstractType implements Type {
 
     public VoidType (int line, int column)
     {
@@ -13,7 +13,7 @@ public class VoidType extends ASTAbstractNode implements Type {
     @Override
     public String toString()
     {
-        return "VoidType at "+getLine()+" ,"+getColumn();
+        return "void";
     }
 
     @Override

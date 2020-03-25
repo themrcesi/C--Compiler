@@ -11,16 +11,16 @@ import java.util.List;
 
 public interface Type extends ASTNode {
 
-    public boolean isBoolean();
-
-    Type logical(Type t);
-    Type arithmetic(Type t);
-    Type squareBrackets(Type t);
+    Type logical(Type t, Expression logical);
+    Type arithmetic(Type t, Expression arithmetic);
+    Type squareBrackets(Type t, Expression indexing);
     Type unaryNot(UnaryNot unaryNot);
     Type unaryMinus(UnaryMinus unaryMinus);
     Type comparisson(Type type);
     Type cast(Type castType);
-    Type dot(String member, Access access);
-
-    Type parenthesis(List<Expression> arguments, Invocation invocation);
+    Type dot(String member, Expression access);
+    Type parenthesis(List<Expression> arguments, Expression invocation);
+    boolean isBoolean(); //if, while
+    boolean isWritable();  //write
+    boolean isAssignable(Type type);
 }

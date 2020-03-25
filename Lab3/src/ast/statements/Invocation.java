@@ -3,6 +3,7 @@ package ast.statements;
 import ast.ASTAbstractNode;
 import ast.expressions.Expression;
 import ast.expressions.Variable;
+import ast.types.Type;
 import visitor.Visitor;
 
 import java.util.ArrayList;
@@ -13,6 +14,7 @@ public class Invocation extends ASTAbstractNode implements Statement, Expression
     private Variable name;
     private List<Expression> arguments;
     private boolean lValue;
+    private Type type;
 
     public Invocation(int line, int column, Variable name, List<Expression> arguments)
     {
@@ -48,5 +50,15 @@ public class Invocation extends ASTAbstractNode implements Statement, Expression
     @Override
     public void setLValue(boolean lValue) {
         this.lValue = lValue;
+    }
+
+    @Override
+    public Type getType() {
+        return this.type;
+    }
+
+    @Override
+    public void setType(Type t) {
+        this.type = t;
     }
 }

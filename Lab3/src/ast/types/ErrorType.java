@@ -4,7 +4,7 @@ import ast.ASTAbstractNode;
 import errorHandler.ErrorHandler;
 import visitor.Visitor;
 
-public class ErrorType extends ASTAbstractNode implements Type {
+public class ErrorType extends AbstractType implements Type {
 
     private final String message;
 
