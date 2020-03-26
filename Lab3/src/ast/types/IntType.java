@@ -75,7 +75,7 @@ public class IntType extends AbstractType implements Type {
     @Override
     public Type cast(Type t)
     {
-        if(t instanceof IntType || t instanceof DoubleType || t instanceof CharType) return this;
+        if(t instanceof IntType || t instanceof DoubleType || t instanceof CharType) return t;
         if(t instanceof ErrorType) return t;
         return new ErrorType(this.getLine(), this.getColumn(), "Cannot cast int to "+t.toString());
     }

@@ -84,8 +84,8 @@ public class TypeCheckingVisitor extends AbstractVisitor<Type, Void> {
     public Void visit(Write write, Type param)
     {
         write.getExpression().accept(this, param);
-
-        if(write.getExpression().getType().isWritable())
+        if (!(write.getExpression().getType() instanceof ErrorType))
+        if(!write.getExpression().getType().isWritable())
             new ErrorType(write.getLine(), write.getColumn(), "Expression of a write must be writable");
 
         return null;
