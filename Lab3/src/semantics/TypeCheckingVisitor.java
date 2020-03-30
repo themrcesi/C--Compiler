@@ -25,7 +25,7 @@ public class TypeCheckingVisitor extends AbstractVisitor<Type, Void> {
     public Void visit(Return returnSt, Type param)
     {
         returnSt.getReturned().accept(this, param);
-        if(!returnSt.getReturned().getType().equals(param))
+        if(!returnSt.getReturned().getType().toString().equals(param.toString()))
             new ErrorType(returnSt.getLine(), returnSt.getColumn(), "Returned "+returnSt.getReturned().getType().toString() + " when expecting "+param.toString());
         return null;
     }

@@ -16,6 +16,6 @@ void g() {	// * Error 5
 void main() {
   f();       // * Error 6
   f(3.2);    // * Error 7
-  i=g();     // * Error 8
+  i=g(f(3), 3.4);     // * Error 8
 }
 
