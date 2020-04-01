@@ -10,6 +10,7 @@ public class VarDefinition extends ASTAbstractNode implements Definition, Statem
     private final String name;
     private Type type;
     private int scope;
+    private int offset;
 
     public VarDefinition(int line, int column, Type type, String name) {
         super(line, column);
@@ -46,5 +47,15 @@ public class VarDefinition extends ASTAbstractNode implements Definition, Statem
     @Override
     public Type getType() {
         return type;
+    }
+
+    public int getOffset()
+    {
+        return this.offset;
+    }
+
+    public void setOffset(int offset)
+    {
+        this.offset=offset;
     }
 }

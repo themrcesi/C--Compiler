@@ -58,4 +58,10 @@ public class CharType extends AbstractType implements Type {
         if(t instanceof CharType) return true;
         return false;
     }
+
+    @Override
+    public int numberOfBytes()
+    {
+        return 1;
+    }
 }

@@ -76,4 +76,10 @@ public abstract class AbstractType extends ASTAbstractNode implements Type {
         return false;
     }
 
+    @Override
+    public int numberOfBytes()
+    {
+        throw new RuntimeException("Can´t compute the number of bytes of "+this);
+    }
+
 }

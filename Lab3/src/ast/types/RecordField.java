@@ -8,6 +8,7 @@ public class RecordField extends ASTAbstractNode {
 
     private String name;
     private Type type;
+    private int offset;
 
     public RecordField(int line, int column, Type type, String name) {
         super(line,column);
@@ -33,5 +34,13 @@ public class RecordField extends ASTAbstractNode {
 
     public Type getType() {
         return type;
+    }
+
+    public void setOffset(int fieldsByteSum) {
+        this.offset = offset;
+    }
+
+    public int getOffset(){
+        return this.offset;
     }
 }
