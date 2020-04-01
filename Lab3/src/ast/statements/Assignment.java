@@ -2,6 +2,7 @@ package ast.statements;
 
 import ast.ASTAbstractNode;
 import ast.expressions.Expression;
+import ast.types.Type;
 import visitor.Visitor;
 
 public class Assignment extends ASTAbstractNode implements Statement {

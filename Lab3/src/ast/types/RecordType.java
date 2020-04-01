@@ -1,6 +1,8 @@
 package ast.types;
 
 import ast.ASTAbstractNode;
+import ast.expressions.Access;
+import ast.expressions.Expression;
 import errorHandler.ErrorHandler;
 import visitor.Visitor;
 
@@ -9,7 +11,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-public class RecordType extends ASTAbstractNode implements Type {
+public class RecordType extends AbstractType implements Type {
 
     private List<RecordField> fields;
 
@@ -36,7 +38,7 @@ public class RecordType extends ASTAbstractNode implements Type {
     @Override
     public String toString()
     {
-        return "RecordType at "+getLine()+" ,"+getColumn();
+        return "RecordType with "+fields.size()+" fields";
     }
 
     @Override
@@ -47,4 +49,17 @@ public class RecordType extends ASTAbstractNode implements Type {
     public List<RecordField> getFields() {
         return fields;
     }
+
+    //###################################TYPE CHECKING##################################
+
+    @Override
+    public Type dot(String member, Expression access)
+    {
+        for(RecordField rf : getFields())
+        {
+            if(rf.getName().equals(member)) return rf.getType();
+        }
+        return new ErrorType(access.getLine(), access.getColumn(), "You are trying to access a non defined field: "+member);
+    }
+
 }

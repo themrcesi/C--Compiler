@@ -43,6 +43,7 @@ public class VarDefinition extends ASTAbstractNode implements Definition, Statem
         return name;
     }
 
+    @Override
     public Type getType() {
         return type;
     }

@@ -1,11 +1,12 @@
-void main(){
+// * Main function
+void main() {
+  int a,b;
+  struct {
+    int c;
+    double d;
+  } prueba;
 
-    int[2][3][50] a;
-
-    struct {
-        int a;
-        int b;
-        int a;
-        char b;
-    } check;
+  a = b + prueba + prueba;
 }
+
+

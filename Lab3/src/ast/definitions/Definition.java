@@ -8,4 +8,5 @@ public interface Definition extends ASTNode {
     void setScope(int scope);
     int getScope();
     String getName();
+    Type getType();
 }
