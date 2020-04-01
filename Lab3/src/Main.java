@@ -1,5 +1,6 @@
 import ast.ASTNode;
 import ast.Program;
+import codeGeneration.OffsetVisitor;
 import errorHandler.ErrorHandler;
 import introspector.model.IntrospectorModel;
 import introspector.view.IntrospectorTree;
@@ -31,6 +32,9 @@ public class Main {
 		root.accept(ivisitor,null);
 		TypeCheckingVisitor tvisitor = new TypeCheckingVisitor();
 		root.accept(tvisitor,null);
+
+		OffsetVisitor oVisitor = new OffsetVisitor();
+		root.accept(oVisitor, null);
 
 		IntrospectorModel model = new IntrospectorModel("Root", root);
 		new IntrospectorTree("Tree", model);

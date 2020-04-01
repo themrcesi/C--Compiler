@@ -62,4 +62,13 @@ public class RecordType extends AbstractType implements Type {
         return new ErrorType(access.getLine(), access.getColumn(), "You are trying to access a non defined field: "+member);
     }
 
+    @Override
+    public int numberOfBytes() {
+        int sum = 0;
+        for(RecordField rf: this.fields)
+        {
+            sum += rf.getType().numberOfBytes();
+        }
+        return sum;
+    }
 }

@@ -63,4 +63,9 @@ public class DoubleType extends AbstractType implements Type {
         if(t instanceof DoubleType) return true;
         return false;
     }
+
+    @Override
+    public int numberOfBytes() {
+        return 4;
+    }
 }

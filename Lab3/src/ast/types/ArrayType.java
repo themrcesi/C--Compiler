@@ -98,5 +98,11 @@ public class ArrayType extends AbstractType implements Type {
 //        }
 //        return false;
 //    }
+
+    @Override
+    public int numberOfBytes()
+    {
+        return this.size*this.type.numberOfBytes();
+    }
 }
 

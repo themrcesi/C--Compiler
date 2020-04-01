@@ -20,7 +20,10 @@ public interface Type extends ASTNode {
     Type cast(Type castType);
     Type dot(String member, Expression access);
     Type parenthesis(List<Expression> arguments, Expression invocation);
+
     boolean isBoolean(); //if, while
     boolean isWritable();  //write
     boolean isAssignable(Type type);
+
+    int numberOfBytes();
 }
