@@ -28,11 +28,13 @@ public class Main {
 		
 		Program root = parser.program().ast;
 
+		//###########################SEMANTIC############################
 		IdentificationVisitor ivisitor = new IdentificationVisitor();
 		root.accept(ivisitor,null);
 		TypeCheckingVisitor tvisitor = new TypeCheckingVisitor();
 		root.accept(tvisitor,null);
 
+		//###########################CG################################
 		OffsetVisitor oVisitor = new OffsetVisitor();
 		root.accept(oVisitor, null);
 
