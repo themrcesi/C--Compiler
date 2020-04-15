@@ -32,7 +32,7 @@ public class CharType extends AbstractType implements Type {
     @Override
     public Type arithmetic(Type t, Expression arithmetic)
     {
-        if(t instanceof CharType) return this;
+        if(t instanceof CharType) return new IntType(arithmetic.getLine(), arithmetic.getColumn());
         if(t instanceof ErrorType) return t;
         return new ErrorType(arithmetic.getLine(), arithmetic.getColumn(), "Cannot perform an arithemtic operation of char and "+t.toString());
     }
