@@ -1,6 +1,6 @@
 import ast.ASTNode;
 import ast.Program;
-import codeGeneration.OffsetVisitor;
+import codeGeneration.*;
 import errorHandler.ErrorHandler;
 import introspector.model.IntrospectorModel;
 import introspector.view.IntrospectorTree;
@@ -40,6 +40,15 @@ public class Main {
 
 		IntrospectorModel model = new IntrospectorModel("Root", root);
 		new IntrospectorTree("Tree", model);
+
+
+		CodeGeneration cg = new CodeGeneration(args[0],args[1]);
+		ValueCGVisitor vv = new ValueCGVisitor(cg);
+		AddressCGVisitor av = new AddressCGVisitor(cg);
+		vv.setAddressVisitor(av);
+		ExecuteCGVisitor ev = new ExecuteCGVisitor(cg, av, vv);
+
+		root.accept(ev, null);
 
 		ErrorHandler.getInstanceOf().showErrors(System.err);
 	}

@@ -23,4 +23,8 @@ public class CharLiteral extends AbstractExpression implements Expression {
     public <TP, TR> TR accept(Visitor<TP, TR> visitor, TP param) {
         return visitor.visit(this, param);
     }
+
+    public char getValue() {
+        return value;
+    }
 }
