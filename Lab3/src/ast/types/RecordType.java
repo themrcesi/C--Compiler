@@ -1,6 +1,7 @@
 package ast.types;
 
 import ast.ASTAbstractNode;
+import ast.definitions.VarDefinition;
 import ast.expressions.Access;
 import ast.expressions.Expression;
 import errorHandler.ErrorHandler;
@@ -70,5 +71,14 @@ public class RecordType extends AbstractType implements Type {
             sum += rf.getType().numberOfBytes();
         }
         return sum;
+    }
+
+    public RecordField getField(String member) {
+        RecordField returned = null;
+        for (RecordField rf: fields) {
+            if(rf.getName().equals(member))
+                returned = rf;
+        }
+        return returned;
     }
 }

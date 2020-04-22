@@ -1,6 +1,7 @@
 package codeGeneration;
 
 import ast.expressions.*;
+import ast.statements.Invocation;
 
 public class ValueCGVisitor extends AbstractCGVisitor<Void,Void> {
 
@@ -155,19 +156,40 @@ public class ValueCGVisitor extends AbstractCGVisitor<Void,Void> {
     }
 
     /*
-    value[[Invocation: exp1 -> ID exp2*]] =
-
+    value[[Invocation: exp1 -> exp2 exp3*]] =
+        exp3*.forEach(exp -> value[[exp]])  //pushing params
+        <call > exp2.name
      */
+    @Override
+    public Void visit(Invocation invocation, Void params)
+    {
+        invocation.getArguments().forEach(argument -> argument.accept(this, null));
+        cg.call(invocation.getName().getName());
+        return null;
+    }
 
     /*
     value[[Indexing: exp1 -> exp2 exp3]] =
         address[[exp1]]
         <load> exp1.type.suffix()
      */
+    @Override
+    public Void visit(Indexing indexing, Void params)
+    {
+        indexing.accept(this.av, null);
+        cg.load(indexing.getType());
+        return null;
+    }
 
     /*
     value[[Access: exp1 -> exp2 ID]]=
         address[[exp1]]
         <load> exp1.type.suffix()
      */
+    @Override
+    public Void visit(Access access, Void params) {
+        access.accept(this.av, null);
+        cg.load(access.getType());
+        return null;
+    }
 }

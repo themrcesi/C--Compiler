@@ -9,7 +9,7 @@ import ast.types.VoidType;
 
 import java.util.ArrayList;
 
-public class ExecuteCGVisitor extends AbstractCGVisitor<Object,Void> {
+public class ExecuteCGVisitor extends AbstractCGVisitor<int[],Void> {
 
     private CodeGeneration cg;
     private AddressCGVisitor av;
@@ -30,7 +30,7 @@ public class ExecuteCGVisitor extends AbstractCGVisitor<Object,Void> {
             <store> exp.type.suffix()
         */
     @Override
-    public Void visit(Read read, Object params) {
+    public Void visit(Read read, int[] params) {
         cg.printComment("\t' * Read");
         read.getExpression().accept(this.av, null);
         cg.in(read.getExpression().getType());
@@ -44,7 +44,7 @@ public class ExecuteCGVisitor extends AbstractCGVisitor<Object,Void> {
             <out> exp.type.suffix()
         */
     @Override
-    public Void visit(Write write, Object params) {
+    public Void visit(Write write, int[] params) {
         cg.printComment("\t' * Write");
         write.getExpression().accept(this.vv, null);
         cg.out(write.getExpression().getType());
@@ -58,7 +58,7 @@ public class ExecuteCGVisitor extends AbstractCGVisitor<Object,Void> {
             <store> exp1.type.suffix()
         */
     @Override
-    public Void visit(Assignment assignment, Object params) {
+    public Void visit(Assignment assignment, int[] params) {
         assignment.getLeftEx().accept(this.av, null);
         assignment.getRightEx().accept(this.vv, null);
         cg.store(assignment.getLeftEx().getType());
@@ -71,7 +71,7 @@ public class ExecuteCGVisitor extends AbstractCGVisitor<Object,Void> {
 	        <' * > type.toString() ID <( offset > varDefinition.offset <)>
          */
     @Override
-    public Void visit(VarDefinition vDef, Object params)
+    public Void visit(VarDefinition vDef, int[] params)
     {
         cg.printComment("\t' * "+vDef.getType().toString()+" "+vDef.getName()+" (offset "+vDef.getOffset()+")");
         return null;
@@ -103,7 +103,7 @@ public class ExecuteCGVisitor extends AbstractCGVisitor<Object,Void> {
          */
 
     @Override
-    public Void visit(FunctionDefinition funcDef, Object params) {
+    public Void visit(FunctionDefinition funcDef, int[] params) {
         cg.printComment(" "+funcDef.getName());
 
         funcDef.getType().accept(this, params); //parameters
@@ -166,7 +166,7 @@ public class ExecuteCGVisitor extends AbstractCGVisitor<Object,Void> {
             })
         */
     @Override
-    public Void visit(FunctionType funcType, Object params) {
+    public Void visit(FunctionType funcType, int[] params) {
         cg.printComment("\t' * Parameters");
         funcType.getParameters().forEach(vd -> vd.accept(this, params));
         return null;
@@ -185,7 +185,7 @@ public class ExecuteCGVisitor extends AbstractCGVisitor<Object,Void> {
          */
 
     @Override
-    public Void visit(Program program, Object params) {
+    public Void visit(Program program, int[] params) {
         cg.source();
 
         cg.printComment("\t' * Global variables");
@@ -208,43 +208,76 @@ public class ExecuteCGVisitor extends AbstractCGVisitor<Object,Void> {
     /*
         execute[[Return: statement -> expression]](int bytesLocals, int byteParams, int bytesReturn) =
             value[[exp]]
-            ret bytesReturn, bytesLocals, bytesParams
+            <ret > bytesReturn, bytesLocals, bytesParams
          */
     @Override
-    public Void visit(Return returnStatement, Object params) {
-        var returned = (int[]) params;
+    public Void visit(Return returnStatement, int[] params) {
+        var returned = params;
         returnStatement.getReturned().accept(this.vv, null);
         cg.ret(returned[2], returned[0], returned[1]);
         return null;
     }
 
     /*
-    execute[[FunctionInvocation: st -> ID expression*]] =
-
+    execute[[Invocation: st -> exp expression*]] =
+        expression*.forEach(exp -> value[[exp]])
+        <call > exp.name
+        if(!(exp.type.returnType instanceOf VoidType)) //return type is Void
+            <pop> exp.type.returnType.suffix()
      */
 
+    @Override
+    public Void visit(Invocation invocation, int[] params) {
+        invocation.getArguments().forEach(param -> param.accept(this.vv, null));
+        cg.call(invocation.getName().getName());
+        if(!(((FunctionType)invocation.getName().getType()).getReturnType() instanceof VoidType))
+            cg.pop(((FunctionType) invocation.getName().getType()).getReturnType());
+        return null;
+    }
     /*
     execute[[If: st1 -> exp st2+ st3*]] =
         int labelNumber = cg.getLabels(2);
-        value[[exp]]
-        <jz label> labelNumber
+        value[[exp]]    //evaluate condition
+        <jz label> labelNumber  //go to else branch
         st2+.forEach(st -> execute[[st]])
-        <jmp label> labelNumber+1
+        <jmp label> labelNumber+1   //go to end
         <label>labelNumber<:>
         st3*.forEach(st -> execute[[st]])
         <label>labelNumber+1<:>
      */
 
+    @Override
+    public Void visit(If ifelse, int[] params) {
+        int labelNumber = cg.getLabels(2);
+        ifelse.getCondition().accept(this.vv, null);
+        cg.jz(labelNumber);
+        ifelse.getIfStatements().forEach(st -> st.accept(this, params));
+        cg.jmp(labelNumber+1);
+        cg.label(labelNumber);
+        ifelse.getElseStatements().forEach(st -> st.accept(this, params));
+        cg.label(labelNumber+1);
+        return null;
+    }
     /*
     execute[[While: st1 -> exp st2*]] =
         int labelNumber = cg.getLabels(2)
         <label> labelNumber <:>
-        value[[exp]]
-        <jz label> labelNumber+1
+        value[[exp]]    //evaluate condition
+        <jz label> labelNumber+1    //go to end
         st2*.forEach(st -> execute[[st]]
-        <jmp label> labelNumber
+        <jmp label> labelNumber     //go to beginning
         <label> labelNumber+1 <:>
      */
 
-
+    @Override
+    public Void visit(While whileStatement, int[] params) {
+        int labelNumber = cg.getLabels(2);
+        cg.label(labelNumber);
+        whileStatement.getCondition().accept(this.vv, null);
+        cg.jz(labelNumber+1);
+        whileStatement.getBody().forEach(st -> st.accept(this, params));
+        cg.jmp(labelNumber);
+        cg.label(labelNumber+1);
+        return null;
+    }
 }
