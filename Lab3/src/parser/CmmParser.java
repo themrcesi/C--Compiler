@@ -287,13 +287,13 @@ public class CmmParser extends Parser {
 
 	public static class Function_definitionContext extends ParserRuleContext {
 		public FunctionDefinition ast;
-		public TypeContext t;
+		public Built_in_typeContext t;
 		public Token n;
 		public ParameterContext p;
 		public Function_bodyContext b;
 		public Token t2;
-		public TypeContext type() {
-			return getRuleContext(TypeContext.class,0);
+		public Built_in_typeContext built_in_type() {
+			return getRuleContext(Built_in_typeContext.class,0);
 		}
 		public TerminalNode ID() { return getToken(CmmParser.ID, 0); }
 		public ParameterContext parameter() {
@@ -315,14 +315,13 @@ public class CmmParser extends Parser {
 			setState(81);
 			_errHandler.sync(this);
 			switch (_input.LA(1)) {
-			case T__10:
 			case T__11:
 			case T__12:
 			case T__13:
 				enterOuterAlt(_localctx, 1);
 				{
 				setState(61);
-				((Function_definitionContext)_localctx).t = type(0);
+				((Function_definitionContext)_localctx).t = built_in_type();
 				setState(62);
 				((Function_definitionContext)_localctx).n = match(ID);
 				setState(63);
@@ -1640,7 +1639,7 @@ public class CmmParser extends Parser {
 		"\2\3-\3\3\2\2\2./\7\3\2\2/\60\7\4\2\2\60\61\7\5\2\2\61\62\7\6\2\2\62\63"+
 		"\7\7\2\2\63\64\5\f\7\2\64\65\7\b\2\2\65\66\b\3\1\2\66\5\3\2\2\2\678\5"+
 		"\n\6\289\b\4\1\29>\3\2\2\2:;\5\b\5\2;<\b\4\1\2<>\3\2\2\2=\67\3\2\2\2="+
-		":\3\2\2\2>\7\3\2\2\2?@\5\20\t\2@A\7(\2\2AB\7\5\2\2BC\5\16\b\2CD\7\6\2"+
+		":\3\2\2\2>\7\3\2\2\2?@\5\24\13\2@A\7(\2\2AB\7\5\2\2BC\5\16\b\2CD\7\6\2"+
 		"\2DE\7\7\2\2EF\5\f\7\2FG\7\b\2\2GH\b\5\1\2HT\3\2\2\2IJ\7\3\2\2JK\7(\2"+
 		"\2KL\7\5\2\2LM\5\16\b\2MN\7\6\2\2NO\7\7\2\2OP\5\f\7\2PQ\7\b\2\2QR\b\5"+
 		"\1\2RT\3\2\2\2S?\3\2\2\2SI\3\2\2\2T\t\3\2\2\2UV\5\20\t\2VW\7(\2\2W]\b"+

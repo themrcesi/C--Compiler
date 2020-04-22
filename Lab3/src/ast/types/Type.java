@@ -26,4 +26,6 @@ public interface Type extends ASTNode {
     boolean isAssignable(Type type);
 
     int numberOfBytes();
+
+    String suffix();
 }

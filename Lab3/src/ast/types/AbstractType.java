@@ -82,4 +82,10 @@ public abstract class AbstractType extends ASTAbstractNode implements Type {
         throw new RuntimeException("Can´t compute the number of bytes of "+this);
     }
 
+    @Override
+    public String suffix()
+    {
+        throw new RuntimeException("CG: Can´t compute the suffix of "+this);
+    }
+
 }

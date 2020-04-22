@@ -29,7 +29,7 @@ definition returns [List<Definition> ast = new ArrayList<Definition>()]:
         ;
 
 function_definition returns [FunctionDefinition ast]:
-            t = type n = ID '(' p = parameter ')' '{' b = function_body '}'
+            t = built_in_type n = ID '(' p = parameter ')' '{' b = function_body '}'
             {   FunctionType ft = new FunctionType($n.getLine(), $n.getCharPositionInLine()+1, $t.ast, $p.ast);
                 $ast = new FunctionDefinition($n.getLine(), $n.getCharPositionInLine()+1, $n.text, ft, $b.ast); }
             |   t2 = 'void' n = ID '(' p = parameter ')' '{' b = function_body '}'

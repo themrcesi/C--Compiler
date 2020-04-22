@@ -93,4 +93,10 @@ public class IntType extends AbstractType implements Type {
         return 2;
     }
 
+    @Override
+    public String suffix()
+    {
+        return "i";
+    }
+
 }

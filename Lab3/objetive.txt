@@ -1,5 +1,11 @@
-Annotate the AST with the offsets of:
-- Global variables
-- Local variables
-- (Formal) parameters
-- Record fields
+Generate MAPL code for:
+- Programs done
+- Write statements done
+- Read statements done
+- All the constants done
+- Variables done
+- Assignments done
+- Arithmetic, comparison and logical expressions done
+- Definition of global and local variables  done
+- Definition of functions
+- Casts done
