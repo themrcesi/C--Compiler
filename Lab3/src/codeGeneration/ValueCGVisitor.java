@@ -153,4 +153,21 @@ public class ValueCGVisitor extends AbstractCGVisitor<Void,Void> {
         cg.logical(logical.getOperand());
         return null;
     }
+
+    /*
+    value[[Invocation: exp1 -> ID exp2*]] =
+
+     */
+
+    /*
+    value[[Indexing: exp1 -> exp2 exp3]] =
+        address[[exp1]]
+        <load> exp1.type.suffix()
+     */
+
+    /*
+    value[[Access: exp1 -> exp2 ID]]=
+        address[[exp1]]
+        <load> exp1.type.suffix()
+     */
 }

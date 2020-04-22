@@ -35,4 +35,21 @@ public class AddressCGVisitor extends AbstractCGVisitor<Void,Void> {
         }
         return null;
     }
+
+    /*
+    address[[Indexing: exp1 -> exp2 exp3]] =
+        address[[exp2]] //base address
+        value[[exp3]]   //index
+        <pushi > exp1.numberOfBytes()   // nob of array type
+        <muli>
+        <addi>
+     */
+
+    /*
+    address[[Access: exp1 -> exp2 ID]] =
+        address[[exp2]]
+        <pushi > exp2.getType().getField(exp1.member).offset
+        <addi>
+     */
+
 }

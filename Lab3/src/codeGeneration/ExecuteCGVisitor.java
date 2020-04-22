@@ -171,18 +171,6 @@ public class ExecuteCGVisitor extends AbstractCGVisitor<Object,Void> {
         funcType.getParameters().forEach(vd -> vd.accept(this, params));
         return null;
     }
-        /*
-        execute[[Return: statement -> expression]](int bytesLocals, int byteParams, int bytesReturn) =
-            value[[exp]]
-            ret bytesReturn, bytesLocals, bytesParams
-         */
-    @Override
-    public Void visit(Return returnStatement, Object params) {
-        var returned = (int[]) params;
-        returnStatement.getReturned().accept(this.vv, null);
-        cg.ret(returned[2], returned[0], returned[1]);
-        return null;
-    }
 
     /*
         ###############################################PROGRAM#########################################
@@ -216,4 +204,47 @@ public class ExecuteCGVisitor extends AbstractCGVisitor<Object,Void> {
         });
         return null;
     }
+
+    /*
+        execute[[Return: statement -> expression]](int bytesLocals, int byteParams, int bytesReturn) =
+            value[[exp]]
+            ret bytesReturn, bytesLocals, bytesParams
+         */
+    @Override
+    public Void visit(Return returnStatement, Object params) {
+        var returned = (int[]) params;
+        returnStatement.getReturned().accept(this.vv, null);
+        cg.ret(returned[2], returned[0], returned[1]);
+        return null;
+    }
+
+    /*
+    execute[[FunctionInvocation: st -> ID expression*]] =
+
+     */
+
+    /*
+    execute[[If: st1 -> exp st2+ st3*]] =
+        int labelNumber = cg.getLabels(2);
+        value[[exp]]
+        <jz label> labelNumber
+        st2+.forEach(st -> execute[[st]])
+        <jmp label> labelNumber+1
+        <label>labelNumber<:>
+        st3*.forEach(st -> execute[[st]])
+        <label>labelNumber+1<:>
+     */
+
+    /*
+    execute[[While: st1 -> exp st2*]] =
+        int labelNumber = cg.getLabels(2)
+        <label> labelNumber <:>
+        value[[exp]]
+        <jz label> labelNumber+1
+        st2*.forEach(st -> execute[[st]]
+        <jmp label> labelNumber
+        <label> labelNumber+1 <:>
+     */
+
+
 }
