@@ -1,11 +1,6 @@
-Generate MAPL code for:
-- Programs done
-- Write statements done
-- Read statements done
-- All the constants done
-- Variables done
-- Assignments done
-- Arithmetic, comparison and logical expressions done
-- Definition of global and local variables  done
-- Definition of functions
-- Casts done
+Generate code for:
+- While statements
+- If statements
+- The . and [] operators
+- Function invocations
+- Return statements
