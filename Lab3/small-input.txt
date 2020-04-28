@@ -1,12 +1,16 @@
 // * Main function
-void main() {
-  int a,b;
-  struct {
-    int c;
-    double d;
-  } prueba;
+double f(int i) {
+    return (double)(i+2);
+}
 
-  a = b + prueba + prueba;
+void main() {
+
+    char b,c;
+    int a;
+    b='c';
+    c='b';
+    a=b>c;
+    write a;
 }
 
 

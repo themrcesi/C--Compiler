@@ -1,6 +1,7 @@
 package ast.types;
 
 import ast.ASTAbstractNode;
+import ast.definitions.VarDefinition;
 import ast.expressions.Access;
 import ast.expressions.Expression;
 import errorHandler.ErrorHandler;
@@ -38,7 +39,11 @@ public class RecordType extends AbstractType implements Type {
     @Override
     public String toString()
     {
-        return "RecordType with "+fields.size()+" fields";
+        var returned = "record(";
+        for (RecordField rf: fields) {
+            returned += "(" + rf.getName()+" x "+rf.getType().toString()+")";
+        }
+        return returned+")";
     }
 
     @Override
@@ -70,5 +75,14 @@ public class RecordType extends AbstractType implements Type {
             sum += rf.getType().numberOfBytes();
         }
         return sum;
+    }
+
+    public RecordField getField(String member) {
+        RecordField returned = null;
+        for (RecordField rf: fields) {
+            if(rf.getName().equals(member))
+                returned = rf;
+        }
+        return returned;
     }
 }

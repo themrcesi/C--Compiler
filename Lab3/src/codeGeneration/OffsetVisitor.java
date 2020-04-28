@@ -19,14 +19,12 @@ public class OffsetVisitor extends AbstractVisitor<Void,Void> {
     public Void visit(RecordType recordType, Void param)
     {
         int fieldsByteSum = 0;
-
         for(RecordField rf : recordType.getFields())
         {
             rf.setOffset(fieldsByteSum);
             fieldsByteSum += rf.getType().numberOfBytes();
             rf.accept(this, param);
         }
-
         return null;
     }
 

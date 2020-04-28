@@ -45,6 +45,7 @@ public class Main {
 		CodeGeneration cg = new CodeGeneration(args[0],args[1]);
 		ValueCGVisitor vv = new ValueCGVisitor(cg);
 		AddressCGVisitor av = new AddressCGVisitor(cg);
+		av.setValueVisitor(vv);
 		vv.setAddressVisitor(av);
 		ExecuteCGVisitor ev = new ExecuteCGVisitor(cg, av, vv);
 

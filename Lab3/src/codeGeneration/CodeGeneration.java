@@ -11,6 +11,7 @@ public class CodeGeneration {
     private String input;
     private String output;
     private PrintStream ps;
+    private int labels;
 
     public CodeGeneration(String input, String output) throws FileNotFoundException {
         this.input = input;
@@ -34,6 +35,14 @@ public class CodeGeneration {
 
     public void push(Type type, double value) {
         ps.println("\tpush"+type.suffix()+" "+value);
+    }
+
+    public void pushi(int numberOfBytes) {
+        ps.println("\tpushi "+numberOfBytes);
+    }
+
+    public void pop(Type type) {
+        ps.println("\tpop"+type.suffix());
     }
 
     //###################################ADD###########################################
@@ -110,6 +119,10 @@ public class CodeGeneration {
         }
     }
 
+    public void muli() {
+        ps.println("\tmuli");
+    }
+
     //#################################COMPARISSON##################################
     public void comparisson(String operand, Type type) {
         switch (operand) {
@@ -171,7 +184,7 @@ public class CodeGeneration {
     }
 
     public void source() {
-        ps.println("#source\t '"+input+"'");
+        ps.println("#source\t\""+input+"\"");
     }
 
     public void call(String main) {
@@ -188,5 +201,24 @@ public class CodeGeneration {
 
     public void sub(Type type) {
         ps.print("\tsub"+type.suffix());
+    }
+
+
+    public int getLabels(int i) {
+        var returned = labels;
+        labels += i;
+        return returned;
+    }
+
+    public void jz(int labelNumber) {
+        ps.println("\tjz label"+labelNumber);
+    }
+
+    public void jmp(int i) {
+        ps.println("\tjmp label"+i);
+    }
+
+    public void label(int labelNumber) {
+        ps.println(" label"+labelNumber+":");
     }
 }
