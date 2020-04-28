@@ -184,7 +184,7 @@ public class CodeGeneration {
     }
 
     public void source() {
-        ps.println("#source\t '"+input+"'");
+        ps.println("#source\t\""+input+"\"");
     }
 
     public void call(String main) {

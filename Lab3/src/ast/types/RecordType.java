@@ -39,7 +39,11 @@ public class RecordType extends AbstractType implements Type {
     @Override
     public String toString()
     {
-        return "RecordType with "+fields.size()+" fields";
+        var returned = "record(";
+        for (RecordField rf: fields) {
+            returned += "(" + rf.getName()+" x "+rf.getType().toString()+")";
+        }
+        return returned+")";
     }
 
     @Override

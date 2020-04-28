@@ -104,7 +104,7 @@ public class ExecuteCGVisitor extends AbstractCGVisitor<int[],Void> {
 
     @Override
     public Void visit(FunctionDefinition funcDef, int[] params) {
-        cg.printComment(" "+funcDef.getName());
+        cg.printComment(" "+funcDef.getName()+":");
 
         funcDef.getType().accept(this, params); //parameters
 
@@ -126,6 +126,7 @@ public class ExecuteCGVisitor extends AbstractCGVisitor<int[],Void> {
             {
                 cg.line(st.getLine());
                 st.accept(this, new int[]{byteLocals,byteParams,bytesReturn});
+                cg.printComment("");
             }
         });
 
@@ -212,6 +213,7 @@ public class ExecuteCGVisitor extends AbstractCGVisitor<int[],Void> {
          */
     @Override
     public Void visit(Return returnStatement, int[] params) {
+        cg.printComment("\t' * Return");
         var returned = params;
         returnStatement.getReturned().accept(this.vv, null);
         cg.ret(returned[2], returned[0], returned[1]);
@@ -248,13 +250,22 @@ public class ExecuteCGVisitor extends AbstractCGVisitor<int[],Void> {
 
     @Override
     public Void visit(If ifelse, int[] params) {
+        cg.printComment("\t' * If statement");
         int labelNumber = cg.getLabels(2);
         ifelse.getCondition().accept(this.vv, null);
         cg.jz(labelNumber);
-        ifelse.getIfStatements().forEach(st -> st.accept(this, params));
+        cg.printComment("\t' * Body of the if branch");
+        ifelse.getIfStatements().forEach(st -> {
+            cg.line(st.getLine());
+            st.accept(this, params);
+        });
         cg.jmp(labelNumber+1);
         cg.label(labelNumber);
-        ifelse.getElseStatements().forEach(st -> st.accept(this, params));
+        cg.printComment("\t' * Body of the else branch");
+        ifelse.getElseStatements().forEach(st -> {
+            cg.line(st.getLine());
+            st.accept(this, params);
+        });
         cg.label(labelNumber+1);
         return null;
     }
@@ -271,11 +282,16 @@ public class ExecuteCGVisitor extends AbstractCGVisitor<int[],Void> {
 
     @Override
     public Void visit(While whileStatement, int[] params) {
+        cg.printComment("\t ' * While");
         int labelNumber = cg.getLabels(2);
         cg.label(labelNumber);
         whileStatement.getCondition().accept(this.vv, null);
         cg.jz(labelNumber+1);
-        whileStatement.getBody().forEach(st -> st.accept(this, params));
+        cg.printComment("\t' * Body of the while statement");
+        whileStatement.getBody().forEach(st -> {
+            cg.line(st.getLine());
+            st.accept(this, params);
+        });
         cg.jmp(labelNumber);
         cg.label(labelNumber+1);
         return null;

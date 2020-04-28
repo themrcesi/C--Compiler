@@ -37,7 +37,7 @@ public class RecordField extends ASTAbstractNode {
     }
 
     public void setOffset(int fieldsByteSum) {
-        this.offset = offset;
+        this.offset = fieldsByteSum;
     }
 
     public int getOffset(){
