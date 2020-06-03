@@ -2,7 +2,7 @@
 
 This is a compiler for the [C--](https://en.wikipedia.org/wiki/C--) language developed in Java using [ANTLR](https://www.antlr.org/).
 
-It was developed in the course Programming Language Design of the Software Engineer Degree at the University of Oviedo.
+It was developed in the course Programming Language Design of the [Software Engineer Degree](https://ingenieriainformatica.uniovi.es/infoacademica/grado) at the [University of Oviedo](http://www.uniovi.es/).
 
 ## Language description
 The description of the language is the following:
