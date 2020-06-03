@@ -1,3 +1,0 @@
-expressions have value, type...
-
-primero expressions luego statement type y program

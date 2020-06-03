@@ -1,1 +1,0 @@
-Design an AST for the language described in description.txt. An example program is given in input.txt. The class diagram for the AST must be modelled using any software tool (e.g., https://www.draw.io)
