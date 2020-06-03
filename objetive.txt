@@ -1,6 +1,0 @@
-Generate code for:
-- While statements
-- If statements
-- The . and [] operators
-- Function invocations
-- Return statements
